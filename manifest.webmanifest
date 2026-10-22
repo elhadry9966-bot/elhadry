@@ -1,0 +1,25 @@
+{
+  "id": "./",
+  "name": "خمّن المثل",
+  "short_name": "خمّن المثل",
+  "description": "لعبة ألغاز: خمّن المثل المصري من الإيموجي عبر 50 مرحلة",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1030",
+  "theme_color": "#0b1030",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "screenshots": [
+    {"src": "shots/1.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow", "label": "الشاشة الرئيسية"},
+    {"src": "shots/2.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow", "label": "لغز"},
+    {"src": "shots/3.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow", "label": "اختيار المرحلة"}
+  ]
+}

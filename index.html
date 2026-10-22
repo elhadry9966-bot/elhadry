@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#0b1030">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>خمّن المثل</title>
+<style>
+:root{--bg:#0b1030;--bg2:#141a45;--card:rgba(255,255,255,.06);--line:rgba(255,255,255,.12);--tx:#f4f6ff;--mut:#9aa3d4;--gold:#f7c65a;--ok:#34d399;--no:#fb7185;--ind:#818cf8;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{font-family:Tahoma,"Segoe UI",Arial,sans-serif;color:var(--tx);background:radial-gradient(circle at 88% -4%,#2c2f55 0,transparent 42%),radial-gradient(circle at -12% 42%,#17445e 0,transparent 38%),linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed;overflow-x:hidden}
+button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
+#app{max-width:480px;margin:auto;padding:14px 18px 28px;min-height:100%}
+.scr{display:none;flex-direction:column;gap:14px;animation:in .3s}.scr.on{display:flex}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ibtn{width:46px;height:46px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-size:18px}
+.brand{display:flex;gap:12px;align-items:center}.brand b{display:block;letter-spacing:1px;font-size:15px}.brand small{color:var(--mut);font-size:12px}
+.logo{position:relative;width:52px;height:52px;border-radius:16px;background:var(--card);border:1px solid rgba(247,198,90,.5);display:grid;place-items:center;font-size:28px;font-weight:700;color:var(--gold)}
+.logo i,.dot{position:absolute;top:-3px;inset-inline-start:-3px;width:10px;height:10px;border-radius:50%;background:var(--ok)}
+.tag{display:flex;gap:8px;align-items:center;justify-content:center;color:var(--mut);font-size:14px;margin-top:6px}.tag .dot{position:static}
+h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(--gold);text-shadow:0 4px 24px rgba(247,198,90,.35)}
+.sub{margin:0;text-align:center;color:var(--mut);font-size:17px}
+.hero{position:relative;height:200px;display:flex;align-items:center;justify-content:center}
+.hero:before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hc{position:absolute;display:grid;place-items:center;border-radius:26px;background:linear-gradient(160deg,#243060,#161d48);border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.hc.c{width:112px;height:120px;font-size:62px;z-index:2;border-color:rgba(247,198,90,.5);animation:bob 2.4s ease-in-out infinite}
+.hc.l{width:84px;height:98px;font-size:40px;left:12%;transform:rotate(-9deg)}.hc.r{width:84px;height:98px;font-size:40px;right:12%;transform:rotate(9deg)}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.chip{align-self:center;background:var(--card);border:1px solid var(--line);color:var(--mut);padding:9px 20px;border-radius:30px;font-size:14px}
+.stats{display:flex;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:16px 4px}
+.st{flex:1;text-align:center}.st+.st{border-inline-start:1px solid var(--line)}
+.st b{display:block;font-size:30px;margin:4px 0 2px}.st small{color:var(--mut);font-size:13px}.st em{font-style:normal;color:var(--mut);font-size:14px}
+.row2{display:flex;justify-content:space-between;align-items:center;gap:8px}.row2>b{font-size:19px}.row2.s{color:var(--mut);font-size:13px}
+.row2 .chip{padding:7px 14px;font-size:14px;color:var(--ind);align-self:auto}
+.bar{height:8px;border-radius:8px;background:rgba(255,255,255,.12);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--ok);border-radius:8px;transition:width .4s}
+.gold{height:62px;border-radius:20px;background:linear-gradient(180deg,#fbd77a,#eaaa3c);color:#3b2a00;font-size:20px;font-weight:700;box-shadow:0 5px 0 #b97f1c,0 12px 24px rgba(0,0,0,.3)}
+.gold:active{transform:translateY(4px);box-shadow:0 1px 0 #b97f1c}
+.links{display:flex;justify-content:space-around;color:var(--tx);font-size:16px;padding:4px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.chips button{background:var(--card);border:1px solid var(--line);padding:9px 14px;border-radius:30px;font-size:13px}
+.foot{text-align:center;color:var(--mut);font-size:12px;margin:4px 0 0}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 18px;text-align:center}.stage small{display:block;color:var(--mut);font-size:12px}.stage b{font-size:24px}.stage em{font-style:normal;color:var(--mut);font-size:15px}
+.pill{background:var(--card);border:1px solid var(--line);padding:10px 20px;border-radius:30px;font-weight:700;font-size:20px;color:var(--gold)}
+.ttl{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px}.ttl b{font-size:26px}.ttl span{color:var(--mut)}
+.clue{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid var(--line);border-radius:28px;padding:18px 14px 22px;text-align:center;position:relative}
+.clue .chip{display:inline-block;color:var(--ind);margin-bottom:6px}
+#pic{font-size:54px;line-height:1.25;letter-spacing:6px;min-height:100px;display:flex;align-items:center;justify-content:center;word-break:break-word}
+#qt{font-size:19px;font-weight:700;margin-top:10px}#qs{color:var(--mut);font-size:14px;margin-top:6px;min-height:20px}
+.sec2{display:flex;justify-content:space-between;align-items:center;margin-top:4px}.sec2 b{font-size:20px}.sec2 span{color:var(--mut);font-size:13px}
+.opts{display:grid;gap:12px}
+.opt{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px 16px;font-size:18px;box-shadow:0 4px 0 rgba(0,0,0,.25);text-align:start;transition:.2s}
+.opt .l{flex:none;width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:15px;color:var(--mut)}.opt .t{flex:1;line-height:1.5}
+.opt:active{transform:scale(.985)}.opt.ok{background:rgba(52,211,153,.25);border-color:var(--ok);animation:pop .4s}.opt.no{background:rgba(251,113,133,.22);border-color:var(--no);animation:shake .4s}.opt.gone{opacity:.15;pointer-events:none}
+@keyframes pop{50%{transform:scale(1.04)}}@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.dv{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:14px;margin-top:6px}.dv:before,.dv:after{content:"";flex:1;height:1px;background:var(--line)}
+.hs{display:flex;justify-content:space-around}
+.hb{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;width:78px;text-align:center}.hb:disabled{opacity:.35}
+.hb .c{width:62px;height:62px;border-radius:50%;border:2px solid var(--col);color:var(--col);display:grid;place-items:center;font-size:21px;font-weight:700}.hb small{color:var(--col);font-size:13px}
+.share{display:flex;justify-content:center;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.lv{aspect-ratio:1;border-radius:16px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:18px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.lv small{font-size:9px}.lv.done{background:rgba(52,211,153,.2);border-color:var(--ok);color:var(--ok)}.lv.cur{background:linear-gradient(180deg,#fbd77a,#eaaa3c);color:#3b2a00}.lv.lock{opacity:.35;pointer-events:none}
+.ov{position:fixed;inset:0;background:#050818e6;display:none;align-items:center;justify-content:center;z-index:9;padding:20px}.ov.on{display:flex}
+.box{background:#161d48;border:1px solid var(--line);border-radius:26px;padding:26px 22px;max-width:360px;width:100%;display:flex;flex-direction:column;gap:14px;text-align:center}.box h3{margin:0;font-size:22px}.box p{margin:0;color:var(--mut);line-height:1.8;text-align:start}
+.box .gold{height:52px;font-size:17px}.box .big{font-size:56px;color:var(--gold)}.box .gold:disabled{opacity:.5}
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#000c;padding:10px 20px;border-radius:20px;font-size:15px;opacity:0;transition:.3s;pointer-events:none;z-index:12;white-space:nowrap}.toast.on{opacity:1}
+.cf{position:fixed;top:-30px;font-size:22px;animation:fall 1.4s linear forwards;z-index:8;pointer-events:none}@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.endc{text-align:center;padding-top:40px}.endc .big{font-size:90px}
+</style>
+</head>
+<body>
+<div id="app">
+
+<section id="home" class="scr on">
+  <div class="top"><div class="brand"><div class="logo">خ<i></i></div><div><b>خمّن المثل</b><small>كل صورة تحكي مثلاً</small></div></div><button class="ibtn fx">🔊</button></div>
+  <div class="tag"><span class="dot"></span>لعبة بسيطة. متعة لا تنتهي.</div>
+  <h1>خمّن <span>المثل</span></h1>
+  <p class="sub">هل تستطيع قراءة ما بين الرموز؟</p>
+  <div class="hero"><div class="hc l">🐦</div><div class="hc c">🤔</div><div class="hc r">💡</div></div>
+  <div class="chip">إيموجي صغير. تحدٍّ كبير.</div>
+  <div class="stats">
+    <div class="st"><div>🪙</div><b class="coins"></b><small>عملاتك</small></div>
+    <div class="st"><div>⭐</div><b><span id="sStars"></span> <em>/ 150</em></b><small>نجومك</small></div>
+    <div class="st"><div>🏆</div><b id="sScore"></b><small>نقاطك</small></div>
+  </div>
+  <div class="row2"><b>رحلة من ٥٠ لغزًا</b><span class="chip">✨ ٥ فئات</span></div>
+  <div class="bar"><i id="hp"></i></div>
+  <div class="row2 s"><span id="hnext"></span><span id="hcnt"></span></div>
+  <button class="gold" id="play">▶ واصل التحدي</button>
+  <div class="links"><button id="how">❓ كيف ألعب؟</button><button id="lvls">▦ اختيار المرحلة</button></div>
+  <div class="chips"><button id="daily">🎁 هدية يومية</button><button id="adH">📺 شاهد إعلان +٣٠ 🪙</button><button id="shareH">📤 مشاركة</button><button id="mus">🎵 الموسيقى: إيقاف</button><button id="reset">🔄 ابدأ من جديد</button></div>
+  <p class="foot">مجموعة ألغاز جديدة · تقدمك محفوظ على جهازك</p>
+</section>
+
+<section id="map" class="scr">
+  <div class="top"><button class="ibtn" data-go="home">→</button><b style="font-size:22px">اختيار المرحلة</b><span class="pill" style="padding:8px 16px;font-size:17px"><span class="coins"></span> 🪙</span></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section id="game" class="scr">
+  <div class="top">
+    <div class="stage"><small>المرحلة</small><b><span id="lvn">1</span> <em>/ 50</em></b></div>
+    <div class="pill"><span class="coins"></span> 🪙</div>
+    <div style="display:flex;gap:8px"><button class="ibtn fx">🔊</button><button class="ibtn" id="pause">⏸</button></div>
+  </div>
+  <div class="row2 s"><span id="tier"></span><span id="pct"></span></div>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="ttl"><b>فكّ شفرة اللغز</b><span id="n2"></span></div>
+  <div class="clue"><span class="chip" id="chipT"></span><div id="pic"></div><div id="qt">ما المثل الذي تخبرك به هذه الرموز؟</div><div id="qs"></div></div>
+  <div class="sec2"><b>اختر إجابتك</b><span>إجابة واحدة صحيحة</span></div>
+  <div class="opts" id="opts"></div>
+  <div class="dv">دفعة صغيرة نحو الإجابة</div>
+  <div class="hs">
+    <button class="hb" id="bh" style="--col:var(--ind)"><span class="c">💡</span>تلميح<small>١٠ عملات</small></button>
+    <button class="hb" id="b5" style="--col:var(--gold)"><span class="c">50/50</span>حذف خيارين<small>٢٠ عملة</small></button>
+    <button class="hb" id="bs" style="--col:#93c5fd"><span class="c">⏭</span>تخطّي اللغز<small>٥٠ عملة</small></button>
+    <button class="hb" id="adG" style="--col:var(--ok)"><span class="c">🎁</span>مكافأة إعلان<small>+٣٠ مجانًا</small></button>
+  </div>
+  <button class="share" id="shareG">📤 تحدّي الأصدقاء ←</button>
+</section>
+
+<section id="end" class="scr endc">
+  <div class="big">🏆</div><h1>مبروك!</h1><p class="sub">أنهيت كل المراحل الخمسين<br>أنت خبير الأمثال 👑</p><h2 id="tot" style="margin:0"></h2>
+  <button class="gold" id="shareE">📤 شارك نتيجتك</button><button class="links" data-go="home" style="justify-content:center">القائمة الرئيسية</button>
+</section>
+</div>
+
+<div class="ov" id="hw"><div class="box"><h3>❓ كيف ألعب؟</h3><p>١. انظر إلى الرموز واربطها بمثل مصري.<br>٢. اختر الإجابة من أربعة اختيارات.<br>٣. كل إجابة صحيحة تمنحك عملات ونجوماً (٣ نجوم بلا أخطاء ولا تلميحات).<br>٤. عند التعثّر استخدم التلميح أو حذف خيارين أو تخطّي اللغز.</p><button class="gold" data-close="hw">فهمت</button></div></div>
+<div class="ov" id="pz"><div class="box"><h3>⏸ إيقاف مؤقت</h3><button class="gold" data-close="pz">▶ متابعة</button><button class="links" data-go="home" data-close="pz" style="justify-content:center">🏠 القائمة الرئيسية</button></div></div>
+<div class="ov" id="ad"><div class="box"><h3>📺 إعلان تجريبي</h3><p style="text-align:center">هنا يظهر الإعلان الحقيقي بعد ربط شبكة إعلانات</p><div class="big" id="adn">5</div><button class="gold" id="adx" disabled>انتظر...</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const TIERS=["مبتدئ","هاوٍ","ماهر","خبير","أسطورة"],LT=["أ","ب","ج","د"];
+const DATA="العصفورة في الإيد أحسن من عشرة على الشجرة|✋🐦✅ 🌳🔟🐦❌|الشيء المضمون أفضل من وعود كثيرة;إيد لوحدها ما تسقفش|☝️👏🚫|التعاون ضروري للإنجاز;العلم في الراس مش في الكرّاس|🧠✅ 📓❌|المعرفة الحقيقية تُحفظ في العقل لا الورق;كل تأخيرة وفيها خيرة|⏳🐢➡️🍀|التأخير قد يخفي شيئاً جيداً;اللي باعك بالفول بيعه بقشره|🫘🛒➡️🫘🗑️|من خانك أو استهان بك عامله بالمثل;الديك الفصيح من البيضة يصيح|🥚📢🐓|الموهبة تظهر من الصغر;اختار الصديق قبل الطريق|👬✅ ➡️ 🛣️|اختر رفيقك قبل أن تسافر;من جاور السعيد يسعد|🏠😊🏠➡️😊|الجار الطيب ينفعك;داري على شمعتك تقيد|🕯️💨🤲|احمِ ما تملك حتى يستمر;اللي بيته من إزاز ما يحدفش الناس بالطوب|🏠🪟🚫🧱|من عنده عيوب لا يعيّر غيره;اقلب القدرة على فمها تطلع البنت لأمها|🍲🙃👧➡️👩|البنت تشبه أمها غالباً;ما تحطش البيض كله في سبت واحد|🥚🥚🥚➡️🧺🚫|لا تجازف بكل ما تملك في مكان واحد;القرش الأبيض ينفع في اليوم الأسود|🪙⚪ 📅🖤|ادّخر للأيام الصعبة;اللي فات مات|⏮️🪦|لا تبكِ على الماضي;كل طالع نازل|🚀⬆️ ➡️ ⬇️💥|من يعلو يوماً سيهبط;ضرب الحبيب زي أكل الزبيب|👊➡️❤️🍇😋|عتاب المحبّ لا يؤلم;للحيطان ودان|🧱👂|احذر الكلام فقد يسمعك أحد;حبل الكدب قصير|🤥🪢📏|الكذب ينكشف سريعاً;الصبر مفتاح الفرج|⏳🧘🔑🔓|الصبر يفتح الأبواب المغلقة;اللي تزرعه تحصده|🌱➡️🌾🧺|ما تفعله يعود عليك;العجلة من الشيطان|🏃💨😈|الاستعجال يؤدي للأخطاء;اضرب عصفورين بحجر|🪨➡️🐦🐦|تحقيق هدفين بجهد واحد;الغريق بيتعلق في قشاية|🌊🆘🌾|اليائس يتمسك بأي أمل;مش كل ما يلمع دهب|✨🚫🥇|المظهر قد يخدع;كتر الطباخين تحرق الطبخة|👨‍🍳👩‍🍳👨‍🍳🍲🔥|كثرة المتدخلين تفسد العمل;القرد في عين أمه غزال|🐒👀❤️🦌|الأم ترى ابنها أجمل الناس;الحاجة أم الاختراع|😰➡️💡🔧|الضيق يولّد الأفكار;العين بصيرة واليد قصيرة|👁️🍎 🤏🚫|ترى ما تريد ولا تستطيع نيله;الباب اللي يجيلك منه الريح سده واستريح|🚪💨🧱😌|تخلّص من مصدر المشكلة;دخان يعمي ولا برد يقتل|🌫️🙈🆚🥶💀|أهون الضررين أفضل;الجمل ما يشوفش حدبته|🐪🙈|الإنسان لا يرى عيوب نفسه;من جاور الحداد ينكوي بناره|⚒️🔥🏠😖|مجاورة الأشرار تضرّك;لما القط يغيب العب يا فار|🐱🚫🐭🎉|الناس تنشط حين يغيب الرقيب;الصلح خير|🕊️🤝✅|الإصلاح بين المتخاصمين أفضل;الطمع يقل ما جمع|🤑💰➡️📉|الطمع يضيّع ما معك;قصقصي ريش طيرك قبل ما يلف على غيرك|✂️🪶🐦|امنع من يخصّك أن يذهب لغيرك;العروسة طويلة والباب قصير|👰⬆️ 🚪⬇️|ظروف لا تناسب بعضها;الصديق وقت الضيق|😰🆘👬🤝|الصديق الحقيقي يظهر في الشدة;الكلام من فضة والسكوت من دهب|🗣️🥈 🤐🥇|الصمت أحياناً أثمن من الكلام;الكلاب تعوي والقافلة تسير|🐕📢 🐪🐪🐪➡️|تجاهل المنتقدين وأكمل طريقك;مفيش ورد من غير شوك|🌹➕🌵|كل جميل له صعوبة;العلم في الصغر زي النقش على الحجر|👶📖🪨✍️|ما تتعلمه صغيراً يثبت;مراية الحب عميا|🪞❤️🙈|المحب لا يرى عيوب حبيبه;الوقت زي السيف|⏱️⚔️|إن لم تستغله ضاع منك;المؤمن ما يتلدغش من جحر مرتين|🐍🕳️🤕 2️⃣🚫|لا تقع في نفس الخطأ مرتين;الجبل تمخض فولد فار|⛰️😤➡️🐭|ضجة كبيرة لنتيجة صغيرة;درهم وقاية ولا قنطار علاج|🪙🛡️ 💰💊|الوقاية أرخص من العلاج;اللي ما يعرف الصقر يشويه|🦅🔥🍽️|الجاهل بقيمة الشيء يضيّعه;الطيور على أشكالها بتقع|🐦🐦➡️🐦🐦|المتشابهون يتجمعون;الجنة تحت أقدام الأمهات|👩👣🌴✨|بر الأم طريق الجنة";
+const D=DATA.split(";").map(s=>{const[p,a,h]=s.split("|");return{p,a,h}});
+const $=i=>document.getElementById(i),LINK=location.href.split("#")[0];
+let S={lv:0,coins:30,done:0,st:{},score:0};
+try{const x=JSON.parse(localStorage.getItem("amthal"));if(x)S=Object.assign(S,x)}catch(e){}
+S.st=S.st||{};
+const save=()=>{try{localStorage.setItem("amthal",JSON.stringify(S))}catch(e){}};
+let mute=false,AC,music=false,mi=null,locked=false,mist=0,hint=false,adCb=null,rs=false;
+function snd(f,d,t,v){if(mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t||"sine";o.frequency.value=f;g.gain.value=v||.12;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+const sOk=()=>[523,659,784].forEach((f,i)=>setTimeout(()=>snd(f,.25),i*110)),sNo=()=>snd(160,.3,"sawtooth",.08);
+let tt;function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("on"),1400)}
+function refresh(){document.querySelectorAll(".coins").forEach(c=>c.textContent=S.coins);$("sScore").textContent=S.score||0;$("sStars").textContent=Object.values(S.st).reduce((a,b)=>a+b,0);const d=Math.min(S.done,50);$("hp").style.width=d*2+"%";$("hcnt").textContent=d+" / 50";$("hnext").textContent=d>=50?"أنهيت كل المراحل 🏆":"المرحلة "+(d+1)+" بانتظارك"}
+function show(id){document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id==id));refresh();if(id=="map")buildMap();scrollTo(0,0)}
+function buildMap(){$("grid").innerHTML="";D.forEach((_,i)=>{const b=document.createElement("button");b.className="lv "+(i<S.done?"done":i==S.done?"cur":"lock");b.innerHTML=i<S.done?"✓<small>"+"⭐".repeat(S.st[i]||1)+"</small>":i+1;if(i<=S.done)b.onclick=()=>{S.lv=i;load()};$("grid").appendChild(b)})}
+function load(){
+  if(S.lv>=50){$("tot").textContent="⭐ "+Object.values(S.st).reduce((a,b)=>a+b,0)+" / 150";show("end");return}
+  locked=false;mist=0;hint=false;const L=D[S.lv],t=TIERS[Math.floor(S.lv/10)],k=S.lv%10*10;
+  $("lvn").textContent=S.lv+1;$("n2").textContent=(S.lv+1)+" / 50";$("tier").textContent=t+" · تقدم الفئة";$("chipT").textContent="فئة "+t;$("pct").textContent=k+"%";$("prog").style.width=k+"%";
+  $("pic").textContent=L.a;$("qs").textContent="فكّر، اربط، ثم اختر الإجابة";
+  const w=D.filter((_,i)=>i!=S.lv).map(x=>x.p).sort(()=>Math.random()-.5).slice(0,3);
+  const o=[{t:L.p,c:1},...w.map(t=>({t,c:0}))].sort(()=>Math.random()-.5);
+  $("opts").innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="opt";b.dataset.c=x.c;b.innerHTML="<span class='l'>"+LT[i]+"</span><span class='t'></span>";b.lastChild.textContent=x.t;b.onclick=()=>pick(b,x.c==1);$("opts").appendChild(b)});
+  $("bh").disabled=false;$("b5").disabled=false;show("game")}
+function pick(b,ok){
+  if(locked)return;
+  if(ok){locked=true;b.classList.add("ok");sOk();confetti();const st=Math.max(1,3-mist-(hint?1:0)),first=S.lv==S.done;S.st[S.lv]=Math.max(S.st[S.lv]||0,st);
+    if(first){S.coins+=10;S.score=(S.score||0)+100+st*50;S.done++}S.lv++;save();refresh();toast("✅ "+"⭐".repeat(st)+(first?" +10 🪙":""));setTimeout(load,1100)}
+  else{mist++;sNo();b.classList.add("no");b.disabled=true}}
+function pay(n){if(S.coins<n){toast("رصيدك لا يكفي 🪙");return false}S.coins-=n;save();refresh();return true}
+$("bh").onclick=()=>{if(locked||!pay(10))return;$("qs").textContent="💡 "+D[S.lv].h;hint=true;$("bh").disabled=true;snd(1047,.3,"sine",.1)};
+$("b5").onclick=()=>{if(locked)return;const w=[...document.querySelectorAll(".opt:not(.gone):not(.no)")].filter(b=>b.dataset.c!="1").sort(()=>Math.random()-.5).slice(0,2);if(w.length<2||!pay(20))return;w.forEach(b=>b.classList.add("gone"));$("b5").disabled=true};
+$("bs").onclick=()=>{if(locked||!pay(50))return;if(S.lv==S.done)S.done++;S.lv++;save();load()};
+function reward(n){S.coins+=n;save();refresh();[988,1319].forEach((f,i)=>setTimeout(()=>snd(f,.15,"triangle"),i*90));toast("🎉 +"+n+" 🪙")}
+let adIv;function showAd(cb){clearInterval(adIv);adCb=cb;let n=5;$("ad").classList.add("on");$("adn").textContent=n;$("adx").disabled=true;$("adx").textContent="انتظر...";adIv=setInterval(()=>{n--;$("adn").textContent=n;if(n<=0){clearInterval(adIv);$("adx").disabled=false;$("adx").textContent="✅ استلم المكافأة"}},1000)}
+$("adx").onclick=()=>{$("ad").classList.remove("on");if(adCb)adCb();adCb=null};
+$("adH").onclick=$("adG").onclick=()=>showAd(()=>reward(30));
+$("daily").onclick=()=>{const t=Date.now();if(S.dl&&t-S.dl<864e5)return toast("ارجع بعد "+Math.ceil((864e5-(t-S.dl))/36e5)+" ساعة ⏳");S.dl=t;reward(50)};
+async function share(){const txt="🤔 وصلت للمرحلة "+Math.min(S.done+1,50)+" في لعبة خمّن المثل! تقدر توصل أبعد مني؟ 💪";
+try{if(navigator.share){await navigator.share({title:"خمّن المثل",text:txt,url:LINK});return}}catch(e){if(e&&e.name=="AbortError")return}
+try{await navigator.clipboard.writeText(txt+" "+LINK);toast("📋 تم نسخ الرسالة والرابط")}catch(e){window.open("https://wa.me/?text="+encodeURIComponent(txt+" "+LINK),"_blank")}}
+$("shareH").onclick=$("shareG").onclick=$("shareE").onclick=share;
+function confetti(){const E=["🎉","✨","⭐","🪙"];for(let i=0;i<22;i++){const s=document.createElement("span");s.className="cf";s.textContent=E[i%4];s.style.left=Math.random()*100+"vw";s.style.animationDelay=Math.random()*.4+"s";document.body.appendChild(s);setTimeout(()=>s.remove(),2000)}}
+const PN=[523,587,659,784,880,784,659,587];
+$("mus").onclick=()=>{music=!music;clearInterval(mi);if(music){let i=0;mi=setInterval(()=>{snd(PN[i%8]*(i%16<8?1:.75),.5,"triangle",.04);i++},600)}$("mus").textContent="🎵 الموسيقى: "+(music?"تشغيل":"إيقاف")};
+document.querySelectorAll(".fx").forEach(b=>b.onclick=()=>{mute=!mute;document.querySelectorAll(".fx").forEach(x=>x.textContent=mute?"🔇":"🔊")});
+document.addEventListener("click",e=>{if(e.target.closest("button"))snd(660,.05,"square",.03)});
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.go)));
+document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>$(b.dataset.close).classList.remove("on")));
+$("play").onclick=()=>{S.lv=Math.min(S.done,50);load()};
+$("lvls").onclick=()=>show("map");$("how").onclick=()=>$("hw").classList.add("on");$("pause").onclick=()=>$("pz").classList.add("on");
+$("reset").onclick=()=>{if(!rs){rs=true;$("reset").textContent="⚠️ اضغط مرة أخرى للتأكيد";setTimeout(()=>{rs=false;$("reset").textContent="🔄 ابدأ من جديد"},3000);return}rs=false;S={lv:0,coins:30,done:0,st:{},score:0};save();$("reset").textContent="🔄 ابدأ من جديد";show("home")};
+show("home");
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
