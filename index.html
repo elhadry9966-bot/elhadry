@@ -94,7 +94,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <div class="row2 s"><span id="hnext"></span><span id="hcnt"></span></div>
   <button class="gold" id="play">▶ واصل التحدي</button>
   <div class="links"><button id="how">❓ كيف ألعب؟</button><button id="lvls">▦ اختيار المرحلة</button></div>
-  <div class="chips"><button id="daily">🎁 هدية يومية</button><button id="adH">📺 شاهد إعلان +٣٠ 🪙</button><button id="shareH">📤 مشاركة</button><button id="mus">🎵 الموسيقى: إيقاف</button><button id="reset">🔄 ابدأ من جديد</button></div>
+  <div class="chips"><button id="daily">🎁 هدية يومية</button><button id="shareH">📤 مشاركة</button><button id="mus">🎵 الموسيقى: إيقاف</button><button id="reset">🔄 ابدأ من جديد</button></div>
   <p class="foot">مجموعة ألغاز جديدة · تقدمك محفوظ على جهازك</p>
 </section>
 
@@ -120,8 +120,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
     <button class="hb" id="bh" style="--col:var(--ind)"><span class="c">💡</span>تلميح<small>١٠ عملات</small></button>
     <button class="hb" id="b5" style="--col:var(--gold)"><span class="c">50/50</span>حذف خيارين<small>٢٠ عملة</small></button>
     <button class="hb" id="bs" style="--col:#93c5fd"><span class="c">⏭</span>تخطّي اللغز<small>٥٠ عملة</small></button>
-    <button class="hb" id="adG" style="--col:var(--ok)"><span class="c">🎁</span>مكافأة إعلان<small>+٣٠ مجانًا</small></button>
-  </div>
+    </div>
   <button class="share" id="shareG">📤 تحدّي الأصدقاء ←</button>
 </section>
 
@@ -133,7 +132,6 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 
 <div class="ov" id="hw"><div class="box"><h3>❓ كيف ألعب؟</h3><p>١. انظر إلى الرموز واربطها بمثل مصري.<br>٢. اختر الإجابة من أربعة اختيارات.<br>٣. كل إجابة صحيحة تمنحك عملات ونجوماً (٣ نجوم بلا أخطاء ولا تلميحات).<br>٤. عند التعثّر استخدم التلميح أو حذف خيارين أو تخطّي اللغز.</p><button class="gold" data-close="hw">فهمت</button></div></div>
 <div class="ov" id="pz"><div class="box"><h3>⏸ إيقاف مؤقت</h3><button class="gold" data-close="pz">▶ متابعة</button><button class="links" data-go="home" data-close="pz" style="justify-content:center">🏠 القائمة الرئيسية</button></div></div>
-<div class="ov" id="ad"><div class="box"><h3>📺 إعلان تجريبي</h3><p style="text-align:center">هنا يظهر الإعلان الحقيقي بعد ربط شبكة إعلانات</p><div class="big" id="adn">5</div><button class="gold" id="adx" disabled>انتظر...</button></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -145,7 +143,7 @@ let S={lv:0,coins:30,done:0,st:{},score:0};
 try{const x=JSON.parse(localStorage.getItem("amthal"));if(x)S=Object.assign(S,x)}catch(e){}
 S.st=S.st||{};
 const save=()=>{try{localStorage.setItem("amthal",JSON.stringify(S))}catch(e){}};
-let mute=false,AC,music=false,mi=null,locked=false,mist=0,hint=false,adCb=null,rs=false;
+let mute=false,AC,music=false,mi=null,locked=false,mist=0,hint=false,rs=false;
 function snd(f,d,t,v){if(mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t||"sine";o.frequency.value=f;g.gain.value=v||.12;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
 const sOk=()=>[523,659,784].forEach((f,i)=>setTimeout(()=>snd(f,.25),i*110)),sNo=()=>snd(160,.3,"sawtooth",.08);
 let tt;function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("on"),1400)}
@@ -171,9 +169,6 @@ $("bh").onclick=()=>{if(locked||!pay(10))return;$("qs").textContent="💡 "+D[S.
 $("b5").onclick=()=>{if(locked)return;const w=[...document.querySelectorAll(".opt:not(.gone):not(.no)")].filter(b=>b.dataset.c!="1").sort(()=>Math.random()-.5).slice(0,2);if(w.length<2||!pay(20))return;w.forEach(b=>b.classList.add("gone"));$("b5").disabled=true};
 $("bs").onclick=()=>{if(locked||!pay(50))return;if(S.lv==S.done)S.done++;S.lv++;save();load()};
 function reward(n){S.coins+=n;save();refresh();[988,1319].forEach((f,i)=>setTimeout(()=>snd(f,.15,"triangle"),i*90));toast("🎉 +"+n+" 🪙")}
-let adIv;function showAd(cb){clearInterval(adIv);adCb=cb;let n=5;$("ad").classList.add("on");$("adn").textContent=n;$("adx").disabled=true;$("adx").textContent="انتظر...";adIv=setInterval(()=>{n--;$("adn").textContent=n;if(n<=0){clearInterval(adIv);$("adx").disabled=false;$("adx").textContent="✅ استلم المكافأة"}},1000)}
-$("adx").onclick=()=>{$("ad").classList.remove("on");if(adCb)adCb();adCb=null};
-$("adH").onclick=$("adG").onclick=()=>showAd(()=>reward(30));
 $("daily").onclick=()=>{const t=Date.now();if(S.dl&&t-S.dl<864e5)return toast("ارجع بعد "+Math.ceil((864e5-(t-S.dl))/36e5)+" ساعة ⏳");S.dl=t;reward(50)};
 async function share(){const txt="🤔 وصلت للمرحلة "+Math.min(S.done+1,50)+" في لعبة خمّن المثل! تقدر توصل أبعد مني؟ 💪";
 try{if(navigator.share){await navigator.share({title:"خمّن المثل",text:txt,url:LINK});return}}catch(e){if(e&&e.name=="AbortError")return}
