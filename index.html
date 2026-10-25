@@ -16,7 +16,7 @@
 html,body{height:100%;margin:0}
 body{font-family:Tahoma,"Segoe UI",Arial,sans-serif;color:var(--tx);background:radial-gradient(circle at 88% -4%,var(--g1) 0,transparent 42%),radial-gradient(circle at -12% 42%,var(--g2) 0,transparent 38%),linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed;overflow-x:hidden}
 button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
-#app{max-width:480px;margin:auto;padding:14px 18px 28px;min-height:100%}
+#app{max-width:480px;margin:auto;padding:14px 18px 28px;min-height:100%;zoom:var(--z,.88)}
 .scr{display:none;flex-direction:column;gap:14px;animation:in .3s}.scr.on{display:flex}
 @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
@@ -67,9 +67,9 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 .lv{aspect-ratio:1;border-radius:16px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:18px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .lv small{font-size:9px}.lv.done{background:rgba(52,211,153,.2);border-color:var(--ok);color:var(--ok)}.lv.cur{background:linear-gradient(180deg,#fbd77a,#eaaa3c);color:#3b2a00}.lv.lock{opacity:.35;pointer-events:none}
 .ov{position:fixed;inset:0;background:#050818e6;display:none;align-items:center;justify-content:center;z-index:9;padding:20px}.ov.on{display:flex}
-.box{background:#161d48;border:1px solid var(--line);border-radius:26px;padding:26px 22px;max-width:360px;width:100%;display:flex;flex-direction:column;gap:14px;text-align:center}.box h3{margin:0;font-size:22px}.box p{margin:0;color:var(--mut);line-height:1.8;text-align:start;white-space:pre-line}
+.box{zoom:var(--z,.88);background:#161d48;border:1px solid var(--line);border-radius:26px;padding:26px 22px;max-width:360px;width:100%;display:flex;flex-direction:column;gap:14px;text-align:center}.box h3{margin:0;font-size:22px}.box p{margin:0;color:var(--mut);line-height:1.8;text-align:start;white-space:pre-line}
 .box .gold{height:52px;font-size:17px}.box .big{font-size:56px;color:var(--gold)}.box .gold:disabled{opacity:.5}
-.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#000c;padding:10px 20px;border-radius:20px;font-size:15px;opacity:0;transition:.3s;pointer-events:none;z-index:12;white-space:nowrap}.toast.on{opacity:1}
+.toast{zoom:var(--z,.88);position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#000c;padding:10px 20px;border-radius:20px;font-size:15px;opacity:0;transition:.3s;pointer-events:none;z-index:12;white-space:nowrap}.toast.on{opacity:1}
 .cf{position:fixed;top:-30px;font-size:22px;animation:fall 1.4s linear forwards;z-index:8;pointer-events:none}@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
 .endc{text-align:center;padding-top:40px}.endc .big{font-size:90px}
 #app{position:relative;z-index:1}
@@ -95,6 +95,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 #bk{width:100%;min-height:92px;border-radius:16px;background:rgba(0,0,0,.25);border:1px solid var(--line);color:var(--tx);padding:10px;font-size:12px;direction:ltr;text-align:left;font-family:monospace;resize:none}
 .sb{height:46px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:14px;font-weight:700;flex:1}.sb.p{background:linear-gradient(180deg,#fbd77a,#eaaa3c);color:#3b2a00;border:0}
 .obd{display:flex;gap:8px;justify-content:center}.obd i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2)}.obd i.on{background:var(--gold)}
+.zs{display:flex;gap:8px}.zs .sb.on{border-color:var(--gold);color:var(--gold)}
 .sh2{font-size:18px;font-weight:700;margin:6px 0 0}
 #qtimer{min-width:74px;text-align:center}#qtimer.low{color:var(--no);animation:bump .5s infinite}
 @media (prefers-reduced-motion:reduce){#fx{display:none}}
@@ -158,6 +159,8 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <button class="tg" id="tsnd"><span>🔊 المؤثرات الصوتية</span><i class="sw2"></i></button>
   <button class="tg" id="tmus"><span>🎵 الموسيقى</span><i class="sw2"></i></button>
   <button class="tg" id="tvib"><span>📳 الاهتزاز</span><i class="sw2"></i></button>
+  <div class="sh2">🔍 حجم الواجهة</div>
+  <div class="zs"><button class="sb" data-z="0.76">صغير</button><button class="sb" data-z="0.88">متوسط</button><button class="sb" data-z="1">كبير</button></div>
   <div class="sh2">💾 نسخة احتياطية لتقدمك</div>
   <p style="margin:0;color:var(--mut);font-size:13px;line-height:1.8">تقدمك محفوظ على هذا الجهاز فقط. انسخ الكود واحفظه (واتساب لنفسك مثلًا)، ولو غيّرت جهازك الصق الكود هنا واضغط «استرجع».</p>
   <textarea id="bk" spellcheck="false" placeholder="الكود هنا"></textarea>
@@ -205,7 +208,7 @@ const D=DATA.split(";").map(s=>{const[p,a,h]=s.split("|");return{p,a,h}});
 const $=i=>document.getElementById(i),LINK=location.href.split("#")[0];
 let S={lv:0,coins:30,done:0,st:{},score:0};
 try{const x=JSON.parse(localStorage.getItem("amthal"));if(x)S=Object.assign(S,x)}catch(e){}
-S.st=S.st||{};S.ach=S.ach||{};S.own=S.own||["t_night","h_think"];S.eq=S.eq||{t:"t_night",h:"h_think"};S.run=S.run||0;S.set=Object.assign({snd:1,mus:0,vib:1},S.set||{});if(S.done>0||S.coins!=30)S.ob=1;
+S.st=S.st||{};S.ach=S.ach||{};S.own=S.own||["t_night","h_think"];S.eq=S.eq||{t:"t_night",h:"h_think"};S.run=S.run||0;S.set=Object.assign({snd:1,mus:0,vib:1,z:0.88},S.set||{});if(S.done>0||S.coins!=30)S.ob=1;
 const save=()=>{try{localStorage.setItem("amthal",JSON.stringify(S))}catch(e){}};
 const todayS=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())};
 const dayN=s=>Math.round(Date.parse(s+"T00:00:00Z")/864e5);
@@ -333,7 +336,9 @@ $("achb").onclick=()=>show("ach");$("shpb").onclick=()=>show("shop");
 applyEq();syncSet();
 const PN=[523,587,659,784,880,784,659,587];
 function setMusic(on){music=on;clearInterval(mi);mi=null;if(on){let i=0;mi=setInterval(()=>{snd(PN[i%8]*(i%16<8?1:.75),.5,"triangle",.04);i++},600)}}
-function syncSet(){["snd","mus","vib"].forEach(k=>$("t"+k).classList.toggle("on",!!S.set[k]));document.querySelectorAll(".fx").forEach(x=>x.textContent=S.set.snd?"🔊":"🔇")}
+function applyZ(){document.documentElement.style.setProperty("--z",S.set.z);document.querySelectorAll("[data-z]").forEach(b=>b.classList.toggle("on",Math.abs(parseFloat(b.dataset.z)-S.set.z)<.01))}
+document.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{S.set.z=parseFloat(b.dataset.z);save();applyZ()});
+function syncSet(){applyZ();["snd","mus","vib"].forEach(k=>$("t"+k).classList.toggle("on",!!S.set[k]));document.querySelectorAll(".fx").forEach(x=>x.textContent=S.set.snd?"🔊":"🔇")}
 $("tsnd").onclick=()=>{S.set.snd=S.set.snd?0:1;mute=!S.set.snd;save();syncSet()};
 $("tmus").onclick=()=>{S.set.mus=S.set.mus?0:1;save();syncSet();setMusic(!!S.set.mus&&!mute)};
 $("tvib").onclick=()=>{S.set.vib=S.set.vib?0:1;save();syncSet();if(S.set.vib)try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}};
@@ -345,7 +350,7 @@ $("bmk").onclick=()=>{$("bk").value=enc(S);toast("تم إنشاء الكود ✅
 $("bcp").onclick=async()=>{const t=$("bk").value||(($("bk").value=enc(S)),$("bk").value);try{await navigator.clipboard.writeText(t);toast("📋 تم النسخ")}catch(e){$("bk").select();document.execCommand&&document.execCommand("copy");toast("📋 تم النسخ")}};
 let brc=false;$("brs").onclick=()=>{const o=dec($("bk").value);if(!o)return toast("الكود غير صحيح ❌");
  if(!brc){brc=true;$("brs").textContent="⚠️ اضغط للتأكيد";setTimeout(()=>{brc=false;$("brs").textContent="استرجع"},3500);return}
- brc=false;$("brs").textContent="استرجع";S=Object.assign({lv:0,coins:30,done:0,st:{},score:0,ach:{},own:["t_night","h_think"],eq:{t:"t_night",h:"h_think"},run:0,set:{snd:1,mus:0,vib:1},ob:1},o);S.ob=1;S.set=Object.assign({snd:1,mus:0,vib:1},S.set||{});mute=!S.set.snd;save();applyEq();syncSet();refresh();toast("✅ تم استرجاع تقدمك");setTimeout(()=>show("home"),900)};
+ brc=false;$("brs").textContent="استرجع";S=Object.assign({lv:0,coins:30,done:0,st:{},score:0,ach:{},own:["t_night","h_think"],eq:{t:"t_night",h:"h_think"},run:0,set:{snd:1,mus:0,vib:1,z:0.88},ob:1},o);S.ob=1;S.set=Object.assign({snd:1,mus:0,vib:1,z:0.88},S.set||{});mute=!S.set.snd;save();applyEq();syncSet();refresh();toast("✅ تم استرجاع تقدمك");setTimeout(()=>show("home"),900)};
 // onboarding
 const OB=[["🧩","اربط الرموز بالمثل","هتشوف إيموجي بتحكي مثل مصري، واختار الإجابة الصح من ٤ اختيارات."],["🪙","اكسب وساعد نفسك","كل إجابة صح بتديك عملات ونجوم. ولو اتعثّرت استخدم تلميح أو احذف خيارين أو تخطَّ اللغز."],["🔥","تحديات كل يوم","تحدي اليوم وتحدي السرعة وسلسلة أيام وإنجازات ومتجر تغيّر بيه شكل اللعبة."]];let obi=0;
 function obShow(){const o=OB[obi];$("obe").textContent=o[0];$("obt").textContent=o[1];$("obp").textContent=o[2];$("obd").innerHTML=OB.map((_,i)=>"<i"+(i==obi?" class='on'":"")+"></i>").join("");$("obn").textContent=obi==OB.length-1?"يلا نبدأ 🚀":"التالي"}
