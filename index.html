@@ -98,6 +98,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 .zs{display:flex;gap:8px}.zs .sb.on{border-color:var(--gold);color:var(--gold)}
 .em{color:var(--mut);font-size:13px;text-align:center;direction:ltr;user-select:all}
 .rtb{display:flex;flex-direction:column;gap:8px}
+.lg a{color:var(--mut);text-decoration:underline;padding:6px 4px}
 .sh2{font-size:18px;font-weight:700;margin:6px 0 0}
 #qtimer{min-width:74px;text-align:center}#qtimer.low{color:var(--no);animation:bump .5s infinite}
 @media (prefers-reduced-motion:reduce){#fx{display:none}}
@@ -126,8 +127,9 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <div class="modes"><button class="mode" id="dcb"></button><button class="mode" id="tab"></button></div>
   <div class="modes"><button class="mode" id="achb"></button><button class="mode" id="shpb">🛍️ المتجر</button></div>
   <div class="links"><button id="how">❓ كيف ألعب؟</button><button id="lvls">▦ اختيار المرحلة</button></div>
-  <div class="chips"><button id="daily">🎁 هدية يومية</button><button id="shareH">📤 مشاركة</button><button id="reset">🔄 ابدأ من جديد</button></div>
+  <div class="chips"><button id="daily">🎁 هدية يومية</button><button id="shareH">📤 مشاركة</button><button id="reset">🔄 ابدأ من جديد</button><button id="rateH">⭐ قيّمنا</button><button id="repH">🐞 بلّغ عن مشكلة</button></div>
   <p class="foot">مجموعة ألغاز جديدة · تقدمك محفوظ على جهازك · © Elhadry</p>
+  <p class="foot lg"><a href="#" data-l="privacy.html">سياسة الخصوصية</a> · <a href="#" data-l="terms.html">شروط الاستخدام</a></p>
 </section>
 
 <section id="map" class="scr">
@@ -167,6 +169,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <div style="display:flex;gap:8px"><button class="sb" id="rateb">⭐ قيّمنا</button><button class="sb" id="repb">🐞 بلّغ عن مشكلة</button></div>
   <div class="em" id="emt"></div>
   <div class="em" style="direction:rtl;margin-top:6px">© Elhadry — جميع الحقوق محفوظة</div>
+  <p class="foot lg" style="margin:0"><a href="#" data-l="privacy.html">سياسة الخصوصية</a> · <a href="#" data-l="terms.html">شروط الاستخدام</a></p>
   <div class="sh2">💾 نسخة احتياطية لتقدمك</div>
   <p style="margin:0;color:var(--mut);font-size:13px;line-height:1.8">تقدمك محفوظ على هذا الجهاز فقط. انسخ الكود واحفظه (واتساب لنفسك مثلًا)، ولو غيّرت جهازك الصق الكود هنا واضغط «استرجع».</p>
   <textarea id="bk" spellcheck="false" placeholder="الكود هنا"></textarea>
@@ -354,8 +357,10 @@ $("setb").onclick=()=>show("set");
 const MAIL="elhadrystudios@gmail.com",APP_V="1.0",PKG="com.elhadry.khamenalmathal",PLAY="https://play.google.com/store/apps/details?id="+PKG;
 $("emt").textContent=MAIL;
 function openRate(){S.rq=2;save();try{window.open(PLAY,"_blank")}catch(e){location.href=PLAY}}
-$("rateb").onclick=openRate;
-$("repb").onclick=()=>{const body="اكتب مشكلتك هنا:\n\n\n\n---\nالإصدار: "+APP_V+"\nالمرحلة: "+Math.min(S.done+1,50)+"\nالجهاز: "+navigator.userAgent;
+$("rateb").onclick=$("rateH").onclick=openRate;
+const SITE="https://elhadry9966-bot.github.io/";
+document.querySelectorAll("[data-l]").forEach(a=>a.onclick=e=>{e.preventDefault();try{window.open(SITE+a.dataset.l,"_blank")}catch(x){location.href=SITE+a.dataset.l}});
+$("repb").onclick=$("repH").onclick=()=>{const body="اكتب مشكلتك هنا:\n\n\n\n---\nالإصدار: "+APP_V+"\nالمرحلة: "+Math.min(S.done+1,50)+"\nالجهاز: "+navigator.userAgent;
  const u="mailto:"+MAIL+"?subject="+encodeURIComponent("بلاغ عن مشكلة - خمّن المثل")+"&body="+encodeURIComponent(body);
  try{location.href=u}catch(e){}
  try{navigator.clipboard.writeText(MAIL)}catch(e){}toast("📧 أرسل بلاغك إلى "+MAIL)};
