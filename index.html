@@ -96,6 +96,8 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 .sb{height:46px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:14px;font-weight:700;flex:1}.sb.p{background:linear-gradient(180deg,#fbd77a,#eaaa3c);color:#3b2a00;border:0}
 .obd{display:flex;gap:8px;justify-content:center}.obd i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2)}.obd i.on{background:var(--gold)}
 .zs{display:flex;gap:8px}.zs .sb.on{border-color:var(--gold);color:var(--gold)}
+.em{color:var(--mut);font-size:13px;text-align:center;direction:ltr;user-select:all}
+.rtb{display:flex;flex-direction:column;gap:8px}
 .sh2{font-size:18px;font-weight:700;margin:6px 0 0}
 #qtimer{min-width:74px;text-align:center}#qtimer.low{color:var(--no);animation:bump .5s infinite}
 @media (prefers-reduced-motion:reduce){#fx{display:none}}
@@ -125,7 +127,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <div class="modes"><button class="mode" id="achb"></button><button class="mode" id="shpb">🛍️ المتجر</button></div>
   <div class="links"><button id="how">❓ كيف ألعب؟</button><button id="lvls">▦ اختيار المرحلة</button></div>
   <div class="chips"><button id="daily">🎁 هدية يومية</button><button id="shareH">📤 مشاركة</button><button id="reset">🔄 ابدأ من جديد</button></div>
-  <p class="foot">مجموعة ألغاز جديدة · تقدمك محفوظ على جهازك</p>
+  <p class="foot">مجموعة ألغاز جديدة · تقدمك محفوظ على جهازك · © Elhadry</p>
 </section>
 
 <section id="map" class="scr">
@@ -161,6 +163,10 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <button class="tg" id="tvib"><span>📳 الاهتزاز</span><i class="sw2"></i></button>
   <div class="sh2">🔍 حجم الواجهة</div>
   <div class="zs"><button class="sb" data-z="0.76">صغير</button><button class="sb" data-z="0.88">متوسط</button><button class="sb" data-z="1">كبير</button></div>
+  <div class="sh2">💬 الدعم</div>
+  <div style="display:flex;gap:8px"><button class="sb" id="rateb">⭐ قيّمنا</button><button class="sb" id="repb">🐞 بلّغ عن مشكلة</button></div>
+  <div class="em" id="emt"></div>
+  <div class="em" style="direction:rtl;margin-top:6px">© Elhadry — جميع الحقوق محفوظة</div>
   <div class="sh2">💾 نسخة احتياطية لتقدمك</div>
   <p style="margin:0;color:var(--mut);font-size:13px;line-height:1.8">تقدمك محفوظ على هذا الجهاز فقط. انسخ الكود واحفظه (واتساب لنفسك مثلًا)، ولو غيّرت جهازك الصق الكود هنا واضغط «استرجع».</p>
   <textarea id="bk" spellcheck="false" placeholder="الكود هنا"></textarea>
@@ -198,6 +204,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 <div class="ov" id="hw"><div class="box"><h3>❓ كيف ألعب؟</h3><p>١. انظر إلى الرموز واربطها بمثل مصري.<br>٢. اختر الإجابة من أربعة اختيارات.<br>٣. كل إجابة صحيحة تمنحك عملات ونجوماً (٣ نجوم بلا أخطاء ولا تلميحات).<br>٤. عند التعثّر استخدم التلميح أو حذف خيارين أو تخطّي اللغز.</p><button class="gold" data-close="hw">فهمت</button></div></div>
 <div class="ov" id="pz"><div class="box"><h3>⏸ إيقاف مؤقت</h3><button class="gold" data-close="pz">▶ متابعة</button><button class="links" data-go="home" data-close="pz" style="justify-content:center">🏠 القائمة الرئيسية</button></div></div>
 <div class="ov" id="o2"><div class="box"><div class="big" id="o2e">🏆</div><h3 id="o2t"></h3><p id="o2p" style="text-align:center"></p><button class="gold" id="o2b">متابعة</button><button class="links" id="o2s" style="justify-content:center">📤 مشاركة</button></div></div>
+<div class="ov" id="rt"><div class="box"><div class="big">⭐</div><h3>عجبتك اللعبة؟</h3><p style="text-align:center">لو استمتعت بـ«خمّن المثل» ساعدنا بتقييم على Google Play. بياخد ثواني وبيفرق معانا كتير 💛</p><div class="rtb"><button class="gold" id="rty">قيّم الآن ⭐</button><button class="links" id="rtl" style="justify-content:center">لاحقًا</button><button class="links" id="rtn" style="justify-content:center;color:var(--mut);font-size:14px">لا شكرًا</button></div></div></div>
 <div class="ov" id="ob"><div class="box"><div class="big" id="obe"></div><h3 id="obt"></h3><p id="obp" style="text-align:center"></p><div class="obd" id="obd"></div><button class="gold" id="obn">التالي</button><button class="links" id="obs" style="justify-content:center">تخطّي</button></div></div>
 <div class="toast" id="toast"></div>
 
@@ -228,7 +235,7 @@ function refresh(){document.querySelectorAll(".coins").forEach(c=>{const p=c.par
   const sk=curStreak(),dd=S.dc&&S.dc.d==todayS();$("strk").textContent=sk>0?"🔥 "+(sk==1?"يوم متتالي":sk+" أيام متتالية"):"🔥 ابدأ سلسلة أيامك اليوم";
   $("dcb").textContent=dd?"✅ تحدي اليوم ("+S.dc.s+"/5)":"🔥 تحدي اليوم";$("dcb").classList.toggle("done",!!dd);
   $("achb").textContent="🏅 الإنجازات "+Object.keys(S.ach).length+"/"+AL.length;$("tab").textContent="⏱️ تحدي السرعة"+(S.best?" · "+S.best:"");$("sScore").textContent=S.score||0;$("sStars").textContent=Object.values(S.st).reduce((a,b)=>a+b,0);const d=Math.min(S.done,50);$("hp").style.width=d*2+"%";$("hcnt").textContent=d+" / 50";$("hnext").textContent=d>=50?"أنهيت كل المراحل 🏆":"المرحلة "+(d+1)+" بانتظارك"}
-function show(id){document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id==id));refresh();if(id=="map")buildMap();if(id=="ach")buildAch();if(id=="shop")buildShop();scrollTo(0,0)}
+function show(id){document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id==id));refresh();if(id=="home")setTimeout(()=>{if(document.querySelector(".scr.on")?.id=="home"&&!document.querySelector(".ov.on"))rateAsk()},700);if(id=="map")buildMap();if(id=="ach")buildAch();if(id=="shop")buildShop();scrollTo(0,0)}
 function buildMap(){$("grid").innerHTML="";D.forEach((_,i)=>{const b=document.createElement("button");b.className="lv "+(i<S.done?"done":i==S.done?"cur":"lock");b.innerHTML=i<S.done?"✓<small>"+"⭐".repeat(S.st[i]||1)+"</small>":i+1;if(i<=S.done)b.onclick=()=>{S.lv=i;load()};$("grid").appendChild(b)})}
 function load(){
   if(S.lv>=50){$("tot").textContent="⭐ "+Object.values(S.st).reduce((a,b)=>a+b,0)+" / 150";show("end");return}
@@ -344,6 +351,19 @@ $("tmus").onclick=()=>{S.set.mus=S.set.mus?0:1;save();syncSet();setMusic(!!S.set
 $("tvib").onclick=()=>{S.set.vib=S.set.vib?0:1;save();syncSet();if(S.set.vib)try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}};
 document.addEventListener("click",()=>{if(S.set.mus&&!music&&!mute)setMusic(true)},{once:true});
 $("setb").onclick=()=>show("set");
+const MAIL="elhadrystudios@gmail.com",APP_V="1.0",PKG="com.elhadry.khamenalmathal",PLAY="https://play.google.com/store/apps/details?id="+PKG;
+$("emt").textContent=MAIL;
+function openRate(){S.rq=2;save();try{window.open(PLAY,"_blank")}catch(e){location.href=PLAY}}
+$("rateb").onclick=openRate;
+$("repb").onclick=()=>{const body="اكتب مشكلتك هنا:\n\n\n\n---\nالإصدار: "+APP_V+"\nالمرحلة: "+Math.min(S.done+1,50)+"\nالجهاز: "+navigator.userAgent;
+ const u="mailto:"+MAIL+"?subject="+encodeURIComponent("بلاغ عن مشكلة - خمّن المثل")+"&body="+encodeURIComponent(body);
+ try{location.href=u}catch(e){}
+ try{navigator.clipboard.writeText(MAIL)}catch(e){}toast("📧 أرسل بلاغك إلى "+MAIL)};
+$("emt").onclick=async()=>{try{await navigator.clipboard.writeText(MAIL);toast("📋 تم نسخ الإيميل")}catch(e){}};
+function rateAsk(){if(S.rq==2||(S.rqc||0)>=2||S.done<(S.rqn||10))return;$("rt").classList.add("on")}
+$("rty").onclick=()=>{$("rt").classList.remove("on");openRate()};
+$("rtl").onclick=()=>{$("rt").classList.remove("on");S.rqc=(S.rqc||0)+1;S.rqn=S.done+15;save()};
+$("rtn").onclick=()=>{$("rt").classList.remove("on");S.rq=2;save()};
 const enc=o=>{const j=JSON.stringify(o);return"KM1-"+hash(j).toString(36)+"-"+btoa(unescape(encodeURIComponent(j)))};
 function dec(c){c=(c||"").trim();const m=c.match(/^KM1-([0-9a-z]+)-([A-Za-z0-9+\/=]+)$/);if(!m)return null;try{const j=decodeURIComponent(escape(atob(m[2])));if(hash(j).toString(36)!==m[1])return null;const o=JSON.parse(j);return typeof o.done=="number"&&typeof o.coins=="number"?o:null}catch(e){return null}}
 $("bmk").onclick=()=>{$("bk").value=enc(S);toast("تم إنشاء الكود ✅ انسخه واحفظه")};
