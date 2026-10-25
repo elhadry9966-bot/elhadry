@@ -89,6 +89,12 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 .si .e{font-size:38px;line-height:1.2}.si .sw{width:100%;height:38px;border-radius:12px;border:1px solid var(--line)}
 .si.eq{border-color:var(--ok);background:rgba(52,211,153,.1)}.si button{width:100%;height:36px;border-radius:12px;background:rgba(255,255,255,.1);font-size:13px;font-weight:700}
 .si button.buy{background:linear-gradient(180deg,#fbd77a,#eaaa3c);color:#3b2a00}
+.tg{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;font-size:17px;width:100%}
+.sw2{width:52px;height:30px;border-radius:30px;background:rgba(255,255,255,.18);position:relative;transition:.2s;flex:none}.sw2:after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s}
+.tg.on .sw2{background:var(--ok)}.tg.on .sw2:after{inset-inline-start:25px}
+#bk{width:100%;min-height:92px;border-radius:16px;background:rgba(0,0,0,.25);border:1px solid var(--line);color:var(--tx);padding:10px;font-size:12px;direction:ltr;text-align:left;font-family:monospace;resize:none}
+.sb{height:46px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:14px;font-weight:700;flex:1}.sb.p{background:linear-gradient(180deg,#fbd77a,#eaaa3c);color:#3b2a00;border:0}
+.obd{display:flex;gap:8px;justify-content:center}.obd i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2)}.obd i.on{background:var(--gold)}
 .sh2{font-size:18px;font-weight:700;margin:6px 0 0}
 #qtimer{min-width:74px;text-align:center}#qtimer.low{color:var(--no);animation:bump .5s infinite}
 @media (prefers-reduced-motion:reduce){#fx{display:none}}
@@ -98,7 +104,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 <div id="app">
 
 <section id="home" class="scr on">
-  <div class="top"><div class="brand"><div class="logo">خ<i></i></div><div><b>خمّن المثل</b><small>كل صورة تحكي مثلاً</small></div></div><button class="ibtn fx">🔊</button></div>
+  <div class="top"><div class="brand"><div class="logo">خ<i></i></div><div><b>خمّن المثل</b><small>كل صورة تحكي مثلاً</small></div></div><div style="display:flex;gap:8px"><button class="ibtn fx">🔊</button><button class="ibtn" id="setb">⚙️</button></div></div>
   <div class="tag"><span class="dot"></span>لعبة بسيطة. متعة لا تنتهي.</div>
   <h1>خمّن <span>المثل</span></h1>
   <p class="sub">هل تستطيع قراءة ما بين الرموز؟</p>
@@ -117,7 +123,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <div class="modes"><button class="mode" id="dcb"></button><button class="mode" id="tab"></button></div>
   <div class="modes"><button class="mode" id="achb"></button><button class="mode" id="shpb">🛍️ المتجر</button></div>
   <div class="links"><button id="how">❓ كيف ألعب؟</button><button id="lvls">▦ اختيار المرحلة</button></div>
-  <div class="chips"><button id="daily">🎁 هدية يومية</button><button id="shareH">📤 مشاركة</button><button id="mus">🎵 الموسيقى: إيقاف</button><button id="reset">🔄 ابدأ من جديد</button></div>
+  <div class="chips"><button id="daily">🎁 هدية يومية</button><button id="shareH">📤 مشاركة</button><button id="reset">🔄 ابدأ من جديد</button></div>
   <p class="foot">مجموعة ألغاز جديدة · تقدمك محفوظ على جهازك</p>
 </section>
 
@@ -145,6 +151,17 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
     <button class="hb" id="bs" style="--col:#93c5fd"><span class="c">⏭</span>تخطّي اللغز<small>٥٠ عملة</small></button>
     </div>
   <button class="share" id="shareG">📤 تحدّي الأصدقاء ←</button>
+</section>
+
+<section id="set" class="scr">
+  <div class="top"><button class="ibtn" data-go="home">→</button><b style="font-size:22px">الإعدادات</b><span style="width:46px"></span></div>
+  <button class="tg" id="tsnd"><span>🔊 المؤثرات الصوتية</span><i class="sw2"></i></button>
+  <button class="tg" id="tmus"><span>🎵 الموسيقى</span><i class="sw2"></i></button>
+  <button class="tg" id="tvib"><span>📳 الاهتزاز</span><i class="sw2"></i></button>
+  <div class="sh2">💾 نسخة احتياطية لتقدمك</div>
+  <p style="margin:0;color:var(--mut);font-size:13px;line-height:1.8">تقدمك محفوظ على هذا الجهاز فقط. انسخ الكود واحفظه (واتساب لنفسك مثلًا)، ولو غيّرت جهازك الصق الكود هنا واضغط «استرجع».</p>
+  <textarea id="bk" spellcheck="false" placeholder="الكود هنا"></textarea>
+  <div style="display:flex;gap:8px"><button class="sb p" id="bmk">احفظ تقدمي</button><button class="sb" id="bcp">📋 نسخ</button><button class="sb" id="brs">استرجع</button></div>
 </section>
 
 <section id="ach" class="scr">
@@ -178,6 +195,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 <div class="ov" id="hw"><div class="box"><h3>❓ كيف ألعب؟</h3><p>١. انظر إلى الرموز واربطها بمثل مصري.<br>٢. اختر الإجابة من أربعة اختيارات.<br>٣. كل إجابة صحيحة تمنحك عملات ونجوماً (٣ نجوم بلا أخطاء ولا تلميحات).<br>٤. عند التعثّر استخدم التلميح أو حذف خيارين أو تخطّي اللغز.</p><button class="gold" data-close="hw">فهمت</button></div></div>
 <div class="ov" id="pz"><div class="box"><h3>⏸ إيقاف مؤقت</h3><button class="gold" data-close="pz">▶ متابعة</button><button class="links" data-go="home" data-close="pz" style="justify-content:center">🏠 القائمة الرئيسية</button></div></div>
 <div class="ov" id="o2"><div class="box"><div class="big" id="o2e">🏆</div><h3 id="o2t"></h3><p id="o2p" style="text-align:center"></p><button class="gold" id="o2b">متابعة</button><button class="links" id="o2s" style="justify-content:center">📤 مشاركة</button></div></div>
+<div class="ov" id="ob"><div class="box"><div class="big" id="obe"></div><h3 id="obt"></h3><p id="obp" style="text-align:center"></p><div class="obd" id="obd"></div><button class="gold" id="obn">التالي</button><button class="links" id="obs" style="justify-content:center">تخطّي</button></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -187,7 +205,7 @@ const D=DATA.split(";").map(s=>{const[p,a,h]=s.split("|");return{p,a,h}});
 const $=i=>document.getElementById(i),LINK=location.href.split("#")[0];
 let S={lv:0,coins:30,done:0,st:{},score:0};
 try{const x=JSON.parse(localStorage.getItem("amthal"));if(x)S=Object.assign(S,x)}catch(e){}
-S.st=S.st||{};S.ach=S.ach||{};S.own=S.own||["t_night","h_think"];S.eq=S.eq||{t:"t_night",h:"h_think"};S.run=S.run||0;
+S.st=S.st||{};S.ach=S.ach||{};S.own=S.own||["t_night","h_think"];S.eq=S.eq||{t:"t_night",h:"h_think"};S.run=S.run||0;S.set=Object.assign({snd:1,mus:0,vib:1},S.set||{});if(S.done>0||S.coins!=30)S.ob=1;
 const save=()=>{try{localStorage.setItem("amthal",JSON.stringify(S))}catch(e){}};
 const todayS=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())};
 const dayN=s=>Math.round(Date.parse(s+"T00:00:00Z")/864e5);
@@ -198,8 +216,8 @@ const hash=s=>{let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul
 const rng=seed=>{let a=seed>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
 function dailyIdx(){const r=rng(hash(todayS()+"khamen")),a=[...Array(50).keys()];for(let i=49;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,5)}
 function popPic(el,str){el.innerHTML="";const seg=window.Intl&&Intl.Segmenter?[...new Intl.Segmenter(undefined,{granularity:"grapheme"}).segment(str)].map(x=>x.segment):Array.from(str);seg.forEach((g,i)=>{const s=document.createElement("span");s.textContent=g;if(g.trim()){s.className="pe";s.style.animationDelay=i*70+"ms"}el.appendChild(s)})}
-const vib=p=>{if(!mute)try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
-let mute=false,AC,music=false,mi=null,locked=false,mist=0,hint=false,rs=false;
+const vib=p=>{if(S.set.vib&&!mute)try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
+let mute=!S.set.snd,AC,music=false,mi=null,locked=false,mist=0,hint=false,rs=false;
 function snd(f,d,t,v){if(mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t||"sine";o.frequency.value=f;g.gain.value=v||.12;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
 const sOk=()=>[523,659,784].forEach((f,i)=>setTimeout(()=>snd(f,.25),i*110)),sNo=()=>snd(160,.3,"sawtooth",.08);
 let tt;function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("on"),1400)}
@@ -312,10 +330,29 @@ function buildShop(){
   b.onclick=()=>buy(it,kind);g.appendChild(d)})};
  mk(TH,"sgt","t");mk(HE,"sgh","h")}
 $("achb").onclick=()=>show("ach");$("shpb").onclick=()=>show("shop");
-applyEq();
+applyEq();syncSet();
 const PN=[523,587,659,784,880,784,659,587];
-$("mus").onclick=()=>{music=!music;clearInterval(mi);if(music){let i=0;mi=setInterval(()=>{snd(PN[i%8]*(i%16<8?1:.75),.5,"triangle",.04);i++},600)}$("mus").textContent="🎵 الموسيقى: "+(music?"تشغيل":"إيقاف")};
-document.querySelectorAll(".fx").forEach(b=>b.onclick=()=>{mute=!mute;document.querySelectorAll(".fx").forEach(x=>x.textContent=mute?"🔇":"🔊")});
+function setMusic(on){music=on;clearInterval(mi);mi=null;if(on){let i=0;mi=setInterval(()=>{snd(PN[i%8]*(i%16<8?1:.75),.5,"triangle",.04);i++},600)}}
+function syncSet(){["snd","mus","vib"].forEach(k=>$("t"+k).classList.toggle("on",!!S.set[k]));document.querySelectorAll(".fx").forEach(x=>x.textContent=S.set.snd?"🔊":"🔇")}
+$("tsnd").onclick=()=>{S.set.snd=S.set.snd?0:1;mute=!S.set.snd;save();syncSet()};
+$("tmus").onclick=()=>{S.set.mus=S.set.mus?0:1;save();syncSet();setMusic(!!S.set.mus&&!mute)};
+$("tvib").onclick=()=>{S.set.vib=S.set.vib?0:1;save();syncSet();if(S.set.vib)try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}};
+document.addEventListener("click",()=>{if(S.set.mus&&!music&&!mute)setMusic(true)},{once:true});
+$("setb").onclick=()=>show("set");
+const enc=o=>{const j=JSON.stringify(o);return"KM1-"+hash(j).toString(36)+"-"+btoa(unescape(encodeURIComponent(j)))};
+function dec(c){c=(c||"").trim();const m=c.match(/^KM1-([0-9a-z]+)-([A-Za-z0-9+\/=]+)$/);if(!m)return null;try{const j=decodeURIComponent(escape(atob(m[2])));if(hash(j).toString(36)!==m[1])return null;const o=JSON.parse(j);return typeof o.done=="number"&&typeof o.coins=="number"?o:null}catch(e){return null}}
+$("bmk").onclick=()=>{$("bk").value=enc(S);toast("تم إنشاء الكود ✅ انسخه واحفظه")};
+$("bcp").onclick=async()=>{const t=$("bk").value||(($("bk").value=enc(S)),$("bk").value);try{await navigator.clipboard.writeText(t);toast("📋 تم النسخ")}catch(e){$("bk").select();document.execCommand&&document.execCommand("copy");toast("📋 تم النسخ")}};
+let brc=false;$("brs").onclick=()=>{const o=dec($("bk").value);if(!o)return toast("الكود غير صحيح ❌");
+ if(!brc){brc=true;$("brs").textContent="⚠️ اضغط للتأكيد";setTimeout(()=>{brc=false;$("brs").textContent="استرجع"},3500);return}
+ brc=false;$("brs").textContent="استرجع";S=Object.assign({lv:0,coins:30,done:0,st:{},score:0,ach:{},own:["t_night","h_think"],eq:{t:"t_night",h:"h_think"},run:0,set:{snd:1,mus:0,vib:1},ob:1},o);S.ob=1;S.set=Object.assign({snd:1,mus:0,vib:1},S.set||{});mute=!S.set.snd;save();applyEq();syncSet();refresh();toast("✅ تم استرجاع تقدمك");setTimeout(()=>show("home"),900)};
+// onboarding
+const OB=[["🧩","اربط الرموز بالمثل","هتشوف إيموجي بتحكي مثل مصري، واختار الإجابة الصح من ٤ اختيارات."],["🪙","اكسب وساعد نفسك","كل إجابة صح بتديك عملات ونجوم. ولو اتعثّرت استخدم تلميح أو احذف خيارين أو تخطَّ اللغز."],["🔥","تحديات كل يوم","تحدي اليوم وتحدي السرعة وسلسلة أيام وإنجازات ومتجر تغيّر بيه شكل اللعبة."]];let obi=0;
+function obShow(){const o=OB[obi];$("obe").textContent=o[0];$("obt").textContent=o[1];$("obp").textContent=o[2];$("obd").innerHTML=OB.map((_,i)=>"<i"+(i==obi?" class='on'":"")+"></i>").join("");$("obn").textContent=obi==OB.length-1?"يلا نبدأ 🚀":"التالي"}
+function obEnd(){S.ob=1;save();$("ob").classList.remove("on")}
+$("obn").onclick=()=>{if(obi<OB.length-1){obi++;obShow()}else obEnd()};$("obs").onclick=obEnd;
+if(!S.ob){obShow();$("ob").classList.add("on")}
+document.querySelectorAll(".fx").forEach(b=>b.onclick=()=>{S.set.snd=S.set.snd?0:1;mute=!S.set.snd;save();syncSet()});
 document.addEventListener("click",e=>{if(e.target.closest("button"))snd(660,.05,"square",.03)});
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.go)));
 document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>$(b.dataset.close).classList.remove("on")));
