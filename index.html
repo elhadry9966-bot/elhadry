@@ -306,9 +306,8 @@ function pick(b,ok){
     try{refresh();toast("✅ "+"⭐".repeat(st)+(first?" +10 🪙":"")+(S.run>=3?" · 🔥×"+S.run:""))}catch(e){logErr(e)}
     try{chk()}catch(e){logErr(e)}
     let gone=false;const go=()=>{if(gone||!document.querySelector("#game.on"))return;gone=true;try{up?tierUp(S.done/10):load()}catch(e){logErr(e);try{load()}catch(x){logErr(x)}}};
-    try{showExp(li,go)}catch(e){logErr(e)}
-    setTimeout(go,EXP_MS);
-    setTimeout(()=>{if(locked&&document.querySelector("#game.on")&&document.querySelector("#opts .opt.ok")){try{load()}catch(e){logErr(e)}}},EXP_MS+2500)}
+    setTimeout(go,1100);
+    setTimeout(()=>{if(locked&&document.querySelector("#game.on")&&document.querySelector("#opts .opt.ok")){try{load()}catch(e){logErr(e)}}},3500)}
   else{mist++;try{sNo();vib([60,40,60])}catch(e){logErr(e)}b.classList.add("no");b.disabled=true}}
 function pay(n){if(S.coins<n){toast("رصيدك لا يكفي 🪙");return false}S.coins-=n;save();refresh();return true}
 $("bh").onclick=()=>{if(locked||!pay(10))return;$("qs").textContent="💡 "+D[S.lv].h;hint=true;$("bh").disabled=true;snd(1047,.3,"sine",.1)};
