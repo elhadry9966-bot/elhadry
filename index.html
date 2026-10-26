@@ -50,7 +50,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 .ttl{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px}.ttl b{font-size:26px}.ttl span{color:var(--mut)}
 .clue{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid var(--line);border-radius:28px;padding:18px 14px 22px;text-align:center;position:relative}
 .clue .chip{display:inline-block;color:var(--ind);margin-bottom:6px}
-#pic,#qpic{font-size:54px;line-height:1.25;letter-spacing:6px;min-height:100px;display:flex;align-items:center;justify-content:center;word-break:break-word}
+#pic,#qpic{flex-wrap:wrap;font-size:54px;line-height:1.25;letter-spacing:6px;min-height:100px;display:flex;align-items:center;justify-content:center;word-break:break-word}
 #qt{font-size:19px;font-weight:700;margin-top:10px}#qs{color:var(--mut);font-size:14px;margin-top:6px;min-height:20px}
 .sec2{display:flex;justify-content:space-between;align-items:center;margin-top:4px}.sec2 b{font-size:20px}.sec2 span{color:var(--mut);font-size:13px}
 .opts{display:grid;gap:12px}
@@ -102,6 +102,17 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 .sh2{font-size:18px;font-weight:700;margin:6px 0 0}
 #qtimer{min-width:74px;text-align:center}#qtimer.low{color:var(--no);animation:bump .5s infinite}
 @media (prefers-reduced-motion:reduce){#fx{display:none}}
+@media (max-width:370px){#pic,#qpic{font-size:42px;letter-spacing:2px}}
+.opt{animation:optin .38s backwards}@keyframes optin{from{opacity:0;transform:translateY(16px) scale(.97)}}
+.gold{position:relative;overflow:hidden}.gold:after{content:"";position:absolute;top:0;bottom:0;inset-inline-start:-60%;width:36%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 3.6s ease-in-out infinite;pointer-events:none}.gold:disabled:after{display:none}
+@keyframes shine{0%,55%{inset-inline-start:-60%}100%{inset-inline-start:140%}}
+.hc.l{animation:fl 3.6s ease-in-out infinite}.hc.r{animation:fr 3.2s ease-in-out infinite .4s}
+@keyframes fl{0%,100%{transform:rotate(-9deg)}50%{transform:translateY(-7px) rotate(-12deg)}}@keyframes fr{0%,100%{transform:rotate(9deg)}50%{transform:translateY(-6px) rotate(12deg)}}
+.lv.cur{animation:cur 1.8s ease-in-out infinite}@keyframes cur{50%{box-shadow:0 0 0 6px rgba(247,198,90,.25)}}
+.clue{animation:clue .45s backwards}@keyframes clue{from{opacity:0;transform:scale(.96)}}
+#prog,#qprog,.bar i{transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.stats .st b{transition:color .3s}
+@media (prefers-reduced-motion:reduce){.opt,.gold:after,.hc.l,.hc.r,.lv.cur,.clue{animation:none}}
 </style>
 </head>
 <body>
@@ -168,9 +179,11 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <div class="sh2">💬 الدعم</div>
   <div style="display:flex;gap:8px"><button class="sb" id="rateb">⭐ قيّمنا</button><button class="sb" id="repb">🐞 بلّغ عن مشكلة</button></div>
   <div class="em" id="emt"></div>
+  <div class="em" id="erx" style="display:none;direction:ltr;text-align:left;font-size:11px;white-space:pre-wrap;word-break:break-all"></div>
   <div class="em" style="direction:rtl;margin-top:6px">© Elhadry — جميع الحقوق محفوظة</div>
   <p class="foot lg" style="margin:0"><a href="#" data-l="privacy.html">سياسة الخصوصية</a> · <a href="#" data-l="terms.html">شروط الاستخدام</a></p>
   <div class="sh2">💾 نسخة احتياطية لتقدمك</div>
+  <div class="em" id="sv" style="direction:rtl;text-align:start;line-height:1.8"></div>
   <p style="margin:0;color:var(--mut);font-size:13px;line-height:1.8">تقدمك محفوظ على هذا الجهاز فقط. انسخ الكود واحفظه (واتساب لنفسك مثلًا)، ولو غيّرت جهازك الصق الكود هنا واضغط «استرجع».</p>
   <textarea id="bk" spellcheck="false" placeholder="الكود هنا"></textarea>
   <div style="display:flex;gap:8px"><button class="sb p" id="bmk">احفظ تقدمي</button><button class="sb" id="bcp">📋 نسخ</button><button class="sb" id="brs">استرجع</button></div>
@@ -212,18 +225,34 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 <div class="toast" id="toast"></div>
 
 <script>
+function logErr(e){try{const m=((e&&(e.stack||e.message))||String(e)).toString().slice(0,500);localStorage.setItem("km_err",new Date().toISOString().slice(11,19)+" | "+m)}catch(x){}}
+addEventListener("error",ev=>logErr(ev.error||ev.message));addEventListener("unhandledrejection",ev=>logErr(ev.reason));
 const TIERS=["مبتدئ","هاوٍ","ماهر","خبير","أسطورة"],LT=["أ","ب","ج","د"];
-const DATA="العصفورة في الإيد أحسن من عشرة على الشجرة|✋🐦✅ 🌳🔟🐦❌|الشيء المضمون أفضل من وعود كثيرة;إيد لوحدها ما تسقفش|☝️👏🚫|التعاون ضروري للإنجاز;العلم في الراس مش في الكرّاس|🧠✅ 📓❌|المعرفة الحقيقية تُحفظ في العقل لا الورق;كل تأخيرة وفيها خيرة|⏳🐢➡️🍀|التأخير قد يخفي شيئاً جيداً;اللي باعك بالفول بيعه بقشره|🫘🛒➡️🫘🗑️|من خانك أو استهان بك عامله بالمثل;الديك الفصيح من البيضة يصيح|🥚📢🐓|الموهبة تظهر من الصغر;اختار الصديق قبل الطريق|👬✅ ➡️ 🛣️|اختر رفيقك قبل أن تسافر;من جاور السعيد يسعد|🏠😊🏠➡️😊|الجار الطيب ينفعك;داري على شمعتك تقيد|🕯️💨🤲|احمِ ما تملك حتى يستمر;اللي بيته من إزاز ما يحدفش الناس بالطوب|🏠🪟🚫🧱|من عنده عيوب لا يعيّر غيره;اقلب القدرة على فمها تطلع البنت لأمها|🍲🙃👧➡️👩|البنت تشبه أمها غالباً;ما تحطش البيض كله في سبت واحد|🥚🥚🥚➡️🧺🚫|لا تجازف بكل ما تملك في مكان واحد;القرش الأبيض ينفع في اليوم الأسود|🪙⚪ 📅🖤|ادّخر للأيام الصعبة;اللي فات مات|⏮️🪦|لا تبكِ على الماضي;كل طالع نازل|🚀⬆️ ➡️ ⬇️💥|من يعلو يوماً سيهبط;ضرب الحبيب زي أكل الزبيب|👊➡️❤️🍇😋|عتاب المحبّ لا يؤلم;للحيطان ودان|🧱👂|احذر الكلام فقد يسمعك أحد;حبل الكدب قصير|🤥🪢📏|الكذب ينكشف سريعاً;الصبر مفتاح الفرج|⏳🧘🔑🔓|الصبر يفتح الأبواب المغلقة;اللي تزرعه تحصده|🌱➡️🌾🧺|ما تفعله يعود عليك;العجلة من الشيطان|🏃💨😈|الاستعجال يؤدي للأخطاء;اضرب عصفورين بحجر|🪨➡️🐦🐦|تحقيق هدفين بجهد واحد;الغريق بيتعلق في قشاية|🌊🆘🌾|اليائس يتمسك بأي أمل;مش كل ما يلمع دهب|✨🚫🥇|المظهر قد يخدع;كتر الطباخين تحرق الطبخة|👨‍🍳👩‍🍳👨‍🍳🍲🔥|كثرة المتدخلين تفسد العمل;القرد في عين أمه غزال|🐒👀❤️🦌|الأم ترى ابنها أجمل الناس;الحاجة أم الاختراع|😰➡️💡🔧|الضيق يولّد الأفكار;العين بصيرة واليد قصيرة|👁️🍎 🤏🚫|ترى ما تريد ولا تستطيع نيله;الباب اللي يجيلك منه الريح سده واستريح|🚪💨🧱😌|تخلّص من مصدر المشكلة;دخان يعمي ولا برد يقتل|🌫️🙈🆚🥶💀|أهون الضررين أفضل;الجمل ما يشوفش حدبته|🐪🙈|الإنسان لا يرى عيوب نفسه;من جاور الحداد ينكوي بناره|⚒️🔥🏠😖|مجاورة الأشرار تضرّك;لما القط يغيب العب يا فار|🐱🚫🐭🎉|الناس تنشط حين يغيب الرقيب;الصلح خير|🕊️🤝✅|الإصلاح بين المتخاصمين أفضل;الطمع يقل ما جمع|🤑💰➡️📉|الطمع يضيّع ما معك;قصقصي ريش طيرك قبل ما يلف على غيرك|✂️🪶🐦|امنع من يخصّك أن يذهب لغيرك;العروسة طويلة والباب قصير|👰⬆️ 🚪⬇️|ظروف لا تناسب بعضها;الصديق وقت الضيق|😰🆘👬🤝|الصديق الحقيقي يظهر في الشدة;الكلام من فضة والسكوت من دهب|🗣️🥈 🤐🥇|الصمت أحياناً أثمن من الكلام;الكلاب تعوي والقافلة تسير|🐕📢 🐪🐪🐪➡️|تجاهل المنتقدين وأكمل طريقك;مفيش ورد من غير شوك|🌹➕🌵|كل جميل له صعوبة;العلم في الصغر زي النقش على الحجر|👶📖🪨✍️|ما تتعلمه صغيراً يثبت;مراية الحب عميا|🪞❤️🙈|المحب لا يرى عيوب حبيبه;الوقت زي السيف|⏱️⚔️|إن لم تستغله ضاع منك;المؤمن ما يتلدغش من جحر مرتين|🐍🕳️🤕 2️⃣🚫|لا تقع في نفس الخطأ مرتين;الجبل تمخض فولد فار|⛰️😤➡️🐭|ضجة كبيرة لنتيجة صغيرة;درهم وقاية ولا قنطار علاج|🪙🛡️ 💰💊|الوقاية أرخص من العلاج;اللي ما يعرف الصقر يشويه|🦅🔥🍽️|الجاهل بقيمة الشيء يضيّعه;الطيور على أشكالها بتقع|🐦🐦➡️🐦🐦|المتشابهون يتجمعون;الجنة تحت أقدام الأمهات|👩👣🌴✨|بر الأم طريق الجنة";
+const DATA="العصفورة في الإيد أحسن من عشرة على الشجرة|✋🐦✅ 🌳🔟🐦❌|الشيء المضمون أفضل من وعود كثيرة;اضرب عصفورين بحجر|🪨➡️🐦🐦|تحقيق هدفين بجهد واحد;كتر الطباخين تحرق الطبخة|👨‍🍳👩‍🍳👨‍🍳🍲🔥|كثرة المتدخلين تفسد العمل;الصلح خير|🕊️🤝✅|الإصلاح بين المتخاصمين أفضل;لما القط يغيب العب يا فار|🐱🚫🐭🎉|الناس تنشط حين يغيب الرقيب;اللي بيته من إزاز ما يحدفش الناس بالطوب|🏠🪟🚫🧱|من عنده عيوب لا يعيّر غيره;الصبر مفتاح الفرج|⏳🧘🔑🔓|الصبر يفتح الأبواب المغلقة;العلم في الراس مش في الكرّاس|🧠✅ 📓❌|المعرفة الحقيقية تُحفظ في العقل لا الورق;الصديق وقت الضيق|😰🆘👬🤝|الصديق الحقيقي يظهر في الشدة;كل طالع نازل|🚀⬆️ ➡️ ⬇️💥|من يعلو يوماً سيهبط;الجبل تمخض فولد فار|⛰️😤➡️🐭|ضجة كبيرة لنتيجة صغيرة;الكلام من فضة والسكوت من دهب|🗣️🥈 🤐🥇|الصمت أحياناً أثمن من الكلام;الكلاب تعوي والقافلة تسير|🐕📢 🐪🐪🐪➡️|تجاهل المنتقدين وأكمل طريقك;مش كل ما يلمع دهب|✨🚫🥇|المظهر قد يخدع;اللي فات مات|⏮️🪦|لا تبكِ على الماضي;العجلة من الشيطان|🏃💨😈|الاستعجال يؤدي للأخطاء;حبل الكدب قصير|🤥🪢📏|الكذب ينكشف سريعاً;داري على شمعتك تقيد|🕯️💨🤲|احمِ ما تملك حتى يستمر;إيد لوحدها ما تسقفش|☝️👏🚫|التعاون ضروري للإنجاز;ما تحطش البيض كله في سبت واحد|🥚🥚🥚➡️🧺🚫|لا تجازف بكل ما تملك في مكان واحد;كل تأخيرة وفيها خيرة|⏳🐢➡️🍀|التأخير قد يخفي شيئاً جيداً;الديك الفصيح من البيضة يصيح|🥚📢🐓|الموهبة تظهر من الصغر;من جاور السعيد يسعد|🏠😊🏠➡️😊|الجار الطيب ينفعك;اللي تزرعه تحصده|🌱➡️🌾🧺|ما تفعله يعود عليك;الباب اللي يجيلك منه الريح سده واستريح|🚪💨🧱😌|تخلّص من مصدر المشكلة;دخان يعمي ولا برد يقتل|🌫️🙈🆚🥶💀|أهون الضررين أفضل;من جاور الحداد ينكوي بناره|⚒️🔥🏠😖|مجاورة الأشرار تضرّك;الطمع يقل ما جمع|🤑💰➡️📉|الطمع يضيّع ما معك;القرش الأبيض ينفع في اليوم الأسود|🪙⚪ 📅🖤|ادّخر للأيام الصعبة;مفيش ورد من غير شوك|🌹🌵🤝|كل جميل له صعوبة;اختار الصديق قبل الطريق|👬✅ ➡️ 🛣️|اختر رفيقك قبل أن تسافر;ضرب الحبيب زي أكل الزبيب|👊➡️❤️🍇😋|عتاب المحبّ لا يؤلم;للحيطان ودان|🧱👂🤫|احذر الكلام فقد يسمعك أحد;الغريق بيتعلق في قشاية|🌊🏊🆘🌾|اليائس يتمسك بأي أمل;الحاجة أم الاختراع|😰➡️💡🔧|الضيق يولّد الأفكار;العين بصيرة واليد قصيرة|👁️🍎 🤏🚫|ترى ما تريد ولا تستطيع نيله;قصقصي ريش طيرك قبل ما يلف على غيرك|✂️🪶🐦|امنع من يخصّك أن يذهب لغيرك;العروسة طويلة والباب قصير|👰⬆️ 🚪⬇️|ظروف لا تناسب بعضها;العلم في الصغر زي النقش على الحجر|👶📖🪨✍️|ما تتعلمه صغيراً يثبت;مراية الحب عميا|🪞❤️🙈|المحب لا يرى عيوب حبيبه;اللي باعك بالفول بيعه بقشره|🫘🛒👋➡️🫘🗑️👋|من خانك أو استهان بك عامله بالمثل;اقلب القدرة على فمها تطلع البنت لأمها|🍲🙃👧➡️👩|البنت تشبه أمها غالباً;القرد في عين أمه غزال|👩🐒👀➡️🦌|الأم ترى ابنها أجمل الناس;الجمل ما يشوفش حدبته|🐪🪞🙈|الإنسان لا يرى عيوب نفسه;الوقت زي السيف|⏱️⚔️✂️|إن لم تستغله ضاع منك;المؤمن ما يتلدغش من جحر مرتين|🐍🕳️🤕 2️⃣🚫|لا تقع في نفس الخطأ مرتين;درهم وقاية ولا قنطار علاج|🪙🛡️ 💰💊|الوقاية أرخص من العلاج;اللي ما يعرف الصقر يشويه|🦅🔥🍽️|الجاهل بقيمة الشيء يضيّعه;الطيور على أشكالها بتقع|🦜🦜🤝 🐧🐧🤝|المتشابهون يتجمعون;الجنة تحت أقدام الأمهات|👩👣🌴✨|بر الأم طريق الجنة";
 const D=DATA.split(";").map(s=>{const[p,a,h]=s.split("|");return{p,a,h}});
 const $=i=>document.getElementById(i),LINK=location.href.split("#")[0];
 let S={lv:0,coins:30,done:0,st:{},score:0};
-try{const x=JSON.parse(localStorage.getItem("amthal"));if(x)S=Object.assign(S,x)}catch(e){}
+let loadedFrom="";
+(function(){const rd=k=>{try{const x=JSON.parse(localStorage.getItem(k));return x&&typeof x=="object"&&typeof x.done=="number"?x:null}catch(e){return null}};
+ let x=rd("amthal");if(x)loadedFrom="main";else{x=rd("amthal_bak");if(x)loadedFrom="bak"}
+ if(x)S=Object.assign(S,x)})();
 S.st=S.st||{};S.ach=S.ach||{};S.own=S.own||["t_night","h_think"];S.eq=S.eq||{t:"t_night",h:"h_think"};S.run=S.run||0;S.set=Object.assign({snd:1,mus:0,vib:1,z:0.88},S.set||{});if(S.done>0||S.coins!=30)S.ob=1;
-const save=()=>{try{localStorage.setItem("amthal",JSON.stringify(S))}catch(e){}};
+let lastSave=0,idbT=null,noSave=false;
+const idb=()=>new Promise((ok,no)=>{try{const q=indexedDB.open("khamen",1);q.onupgradeneeded=()=>q.result.createObjectStore("kv");q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error)}catch(e){no(e)}});
+function idbPut(j){idb().then(d=>{const t=d.transaction("kv","readwrite");t.objectStore("kv").put(j,"S");t.oncomplete=()=>d.close()}).catch(()=>{})}
+function idbGet(){return idb().then(d=>new Promise(ok=>{const q=d.transaction("kv").objectStore("kv").get("S");q.onsuccess=()=>{d.close();ok(q.result||null)};q.onerror=()=>{d.close();ok(null)}})).catch(()=>null)}
+function save(now){if(noSave)return;try{const j=JSON.stringify(S),prev=localStorage.getItem("amthal");if(prev&&prev!==j)localStorage.setItem("amthal_bak",prev);localStorage.setItem("amthal",j);lastSave=Date.now()}catch(e){}
+ try{const j=JSON.stringify(S);clearTimeout(idbT);if(now)idbPut(j);else idbT=setTimeout(()=>idbPut(j),600)}catch(e){}}
+addEventListener("visibilitychange",()=>{if(document.visibilityState=="hidden")save(true)});addEventListener("pagehide",()=>save(true));
+// استرجاع تلقائي لو اتمسحت بيانات المتصفح لكن النسخة الاحتياطية الداخلية لسه موجودة
+if(!loadedFrom){idbGet().then(j=>{try{const x=j&&JSON.parse(j);if(x&&typeof x.done=="number"&&x.done>0&&!sessionStorage.getItem("km_rs")){sessionStorage.setItem("km_rs","1");noSave=true;localStorage.setItem("amthal",j);location.reload()}}catch(e){}})}
+else if(loadedFrom=="bak"){try{localStorage.setItem("amthal",localStorage.getItem("amthal_bak"))}catch(e){}}
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 const todayS=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())};
 const dayN=s=>Math.round(Date.parse(s+"T00:00:00Z")/864e5);
 const curStreak=()=>S.sd&&dayN(todayS())-dayN(S.sd)<=1?(S.streak||0):0;
 function bumpStreak(){const t=todayS();if(S.sd==t)return;S.streak=(S.sd&&dayN(t)-dayN(S.sd)==1)?(S.streak||0)+1:1;S.sd=t}
+const wrongs=(idx,n)=>{const L=D[idx].p.length;return D.map((x,i)=>({p:x.p,i,k:Math.abs(x.p.length-L)+Math.random()*9})).filter(x=>x.i!=idx).sort((a,b)=>a.k-b.k).slice(0,n).map(x=>x.p)};
 const shuf=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const hash=s=>{let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0};
 const rng=seed=>{let a=seed>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
@@ -231,29 +260,40 @@ function dailyIdx(){const r=rng(hash(todayS()+"khamen")),a=[...Array(50).keys()]
 function popPic(el,str){el.innerHTML="";const seg=window.Intl&&Intl.Segmenter?[...new Intl.Segmenter(undefined,{granularity:"grapheme"}).segment(str)].map(x=>x.segment):Array.from(str);seg.forEach((g,i)=>{const s=document.createElement("span");s.textContent=g;if(g.trim()){s.className="pe";s.style.animationDelay=i*70+"ms"}el.appendChild(s)})}
 const vib=p=>{if(S.set.vib&&!mute)try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
 let mute=!S.set.snd,AC,music=false,mi=null,locked=false,mist=0,hint=false,rs=false;
-function snd(f,d,t,v){if(mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t||"sine";o.frequency.value=f;g.gain.value=v||.12;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
-const sOk=()=>[523,659,784].forEach((f,i)=>setTimeout(()=>snd(f,.25),i*110)),sNo=()=>snd(160,.3,"sawtooth",.08);
+function snd(f,d,t,v){if(mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state=="suspended")AC.resume();const n=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type=t||"sine";o.frequency.value=f;v=v||.12;g.gain.setValueAtTime(.0001,n);g.gain.linearRampToValueAtTime(v,n+.012);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d+.02)}catch(e){}}
+const sOk=(c)=>{const k=Math.pow(2,Math.min(c||0,7)/12);[523,659,784,1047].forEach((f,i)=>setTimeout(()=>{snd(f*k,.32,"triangle",.11);snd(f*k*2,.2,"sine",.04)},i*85))},
+sNo=()=>{snd(233,.22,"sawtooth",.06);setTimeout(()=>snd(175,.34,"sawtooth",.06),150)};
 let tt;function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("on"),1400)}
-function refresh(){document.querySelectorAll(".coins").forEach(c=>{const p=c.parentElement;if(c.textContent!==""&&c.textContent!=String(S.coins)){p.classList.remove("bump");void p.offsetWidth;p.classList.add("bump")}c.textContent=S.coins});
+function cnt(el,to){const from=el.dataset.v==null?to:+el.dataset.v;el.dataset.v=to;if(from===to||window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches){el.textContent=to;return}
+ clearInterval(el._t);const t0=performance.now();el._t=setInterval(()=>{const p=Math.min(1,(performance.now()-t0)/450);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));if(p>=1)clearInterval(el._t)},30)}
+function refresh(){document.querySelectorAll(".coins").forEach(c=>{const p=c.parentElement;if(c.textContent!==""&&c.textContent!=String(S.coins)){p.classList.remove("bump");void p.offsetWidth;p.classList.add("bump")}cnt(c,S.coins)});
   const sk=curStreak(),dd=S.dc&&S.dc.d==todayS();$("strk").textContent=sk>0?"🔥 "+(sk==1?"يوم متتالي":sk+" أيام متتالية"):"🔥 ابدأ سلسلة أيامك اليوم";
   $("dcb").textContent=dd?"✅ تحدي اليوم ("+S.dc.s+"/5)":"🔥 تحدي اليوم";$("dcb").classList.toggle("done",!!dd);
   $("achb").textContent="🏅 الإنجازات "+Object.keys(S.ach).length+"/"+AL.length;$("tab").textContent="⏱️ تحدي السرعة"+(S.best?" · "+S.best:"");$("sScore").textContent=S.score||0;$("sStars").textContent=Object.values(S.st).reduce((a,b)=>a+b,0);const d=Math.min(S.done,50);$("hp").style.width=d*2+"%";$("hcnt").textContent=d+" / 50";$("hnext").textContent=d>=50?"أنهيت كل المراحل 🏆":"المرحلة "+(d+1)+" بانتظارك"}
-function show(id){document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id==id));refresh();if(id=="home")setTimeout(()=>{if(document.querySelector(".scr.on")?.id=="home"&&!document.querySelector(".ov.on"))rateAsk()},700);if(id=="map")buildMap();if(id=="ach")buildAch();if(id=="shop")buildShop();scrollTo(0,0)}
+function show(id){document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id==id));refresh();if(id=="home")setTimeout(()=>{if(document.querySelector(".scr.on")?.id=="home"&&!document.querySelector(".ov.on"))rateAsk()},700);if(id=="map")buildMap();if(id=="set")svStat();if(id=="ach")buildAch();if(id=="shop")buildShop();scrollTo(0,0)}
 function buildMap(){$("grid").innerHTML="";D.forEach((_,i)=>{const b=document.createElement("button");b.className="lv "+(i<S.done?"done":i==S.done?"cur":"lock");b.innerHTML=i<S.done?"✓<small>"+"⭐".repeat(S.st[i]||1)+"</small>":i+1;if(i<=S.done)b.onclick=()=>{S.lv=i;load()};$("grid").appendChild(b)})}
 function load(){
   if(S.lv>=50){$("tot").textContent="⭐ "+Object.values(S.st).reduce((a,b)=>a+b,0)+" / 150";show("end");return}
   locked=false;mist=0;hint=false;const L=D[S.lv],t=TIERS[Math.floor(S.lv/10)],k=S.lv%10*10;
   $("lvn").textContent=S.lv+1;$("n2").textContent=(S.lv+1)+" / 50";$("tier").textContent=t+" · تقدم الفئة";$("chipT").textContent="فئة "+t;$("pct").textContent=k+"%";$("prog").style.width=k+"%";
   popPic($("pic"),L.a);$("qs").textContent="فكّر، اربط، ثم اختر الإجابة";
-  const w=D.filter((_,i)=>i!=S.lv).map(x=>x.p).sort(()=>Math.random()-.5).slice(0,3);
+  const w=wrongs(S.lv,3);
   const o=[{t:L.p,c:1},...w.map(t=>({t,c:0}))].sort(()=>Math.random()-.5);
-  $("opts").innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="opt";b.dataset.c=x.c;b.innerHTML="<span class='l'>"+LT[i]+"</span><span class='t'></span>";b.lastChild.textContent=x.t;b.onclick=()=>pick(b,x.c==1);$("opts").appendChild(b)});
+  $("opts").innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="opt";b.dataset.c=x.c;b.innerHTML="<span class='l'>"+LT[i]+"</span><span class='t'></span>";b.lastChild.textContent=x.t;b.style.animationDelay=i*70+"ms";b.onclick=()=>pick(b,x.c==1);$("opts").appendChild(b)});
   $("bh").disabled=false;$("b5").disabled=false;show("game")}
 function pick(b,ok){
   if(locked)return;
-  if(ok){locked=true;b.classList.add("ok");sOk();confetti();vib(40);const st=Math.max(1,3-mist-(hint?1:0)),first=S.lv==S.done;S.run=(mist==0&&!hint)?(S.run||0)+1:0;S.st[S.lv]=Math.max(S.st[S.lv]||0,st);
-    if(first){S.coins+=10;S.score=(S.score||0)+100+st*50;S.done++}const up=first&&S.done%10==0&&S.done<50;S.lv++;save();refresh();toast("✅ "+"⭐".repeat(st)+(first?" +10 🪙":""));chk();setTimeout(up?()=>tierUp(S.done/10):load,1100)}
-  else{mist++;sNo();vib([60,40,60]);b.classList.add("no");b.disabled=true}}
+  if(ok){locked=true;b.classList.add("ok");
+    const combo=(mist==0&&!hint)?(S.run||0)+1:0;let st=1,first=false,up=false;
+    try{st=Math.max(1,3-mist-(hint?1:0));first=S.lv==S.done;S.run=combo;S.st[S.lv]=Math.max(S.st[S.lv]||0,st);
+      if(first){S.coins+=10;S.score=(S.score||0)+100+st*50;S.done++}up=first&&S.done%10==0&&S.done<50;S.lv++;save()}catch(e){logErr(e);S.lv++}
+    try{sOk(combo)}catch(e){logErr(e)}try{confetti()}catch(e){logErr(e)}try{vib(40)}catch(e){logErr(e)}
+    try{refresh();toast("✅ "+"⭐".repeat(st)+(first?" +10 🪙":"")+(S.run>=3?" · 🔥×"+S.run:""))}catch(e){logErr(e)}
+    try{chk()}catch(e){logErr(e)}
+    const go=()=>{try{up?tierUp(S.done/10):load()}catch(e){logErr(e);try{load()}catch(x){logErr(x)}}};
+    setTimeout(go,1100);
+    setTimeout(()=>{if(locked&&document.querySelector("#game.on")&&document.querySelector("#opts .opt.ok")){try{load()}catch(e){logErr(e)}}},3500)}
+  else{mist++;try{sNo();vib([60,40,60])}catch(e){logErr(e)}b.classList.add("no");b.disabled=true}}
 function pay(n){if(S.coins<n){toast("رصيدك لا يكفي 🪙");return false}S.coins-=n;save();refresh();return true}
 $("bh").onclick=()=>{if(locked||!pay(10))return;$("qs").textContent="💡 "+D[S.lv].h;hint=true;$("bh").disabled=true;snd(1047,.3,"sine",.1)};
 $("b5").onclick=()=>{if(locked)return;const w=[...document.querySelectorAll(".opt:not(.gone):not(.no)")].filter(b=>b.dataset.c!="1").sort(()=>Math.random()-.5).slice(0,2);if(w.length<2||!pay(20))return;w.forEach(b=>b.classList.add("gone"));$("b5").disabled=true};
@@ -277,8 +317,8 @@ function qStart(mode){clearInterval(QT);Q={mode,order:mode=="daily"?dailyIdx():s
   if(mode=="time"){$("qtimer").style.display="";QT=setInterval(()=>{Q.t-=.25;qTick();if(Q.t<=0)qEnd()},250);qTick()}else $("qtimer").style.display="none"}
 function qTick(){const t=Math.max(0,Math.ceil(Q.t));$("qtimer").textContent="⏱ "+t;$("qtimer").classList.toggle("low",t<=10);$("qprog").style.width=Math.min(100,Q.t/60*100)+"%"}
 function qRender(){const idx=Q.order[Q.i%50],L=D[idx];Q.lock=false;Q.first=true;popPic($("qpic"),L.a);
-  const w=shuf(D.filter((_,i)=>i!=idx).map(x=>x.p)).slice(0,3),o=shuf([{t:L.p,c:1},...w.map(t=>({t,c:0}))]);
-  $("qopts").innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="opt";b.dataset.c=x.c;b.innerHTML="<span class='l'>"+LT[i]+"</span><span class='t'></span>";b.lastChild.textContent=x.t;b.onclick=()=>qPick(b,x.c==1);$("qopts").appendChild(b)});
+  const w=wrongs(idx,3),o=shuf([{t:L.p,c:1},...w.map(t=>({t,c:0}))]);
+  $("qopts").innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="opt";b.dataset.c=x.c;b.innerHTML="<span class='l'>"+LT[i]+"</span><span class='t'></span>";b.lastChild.textContent=x.t;b.style.animationDelay=i*60+"ms";b.onclick=()=>qPick(b,x.c==1);$("qopts").appendChild(b)});
   if(Q.mode=="daily"){$("qcount").textContent=(Q.i+1)+" / 5";$("qprog").style.width=Q.i/5*100+"%"}else $("qcount").textContent="صح: "+Q.score}
 function qPick(b,ok){if(!Q||Q.lock)return;
   if(Q.mode=="daily"){
@@ -353,6 +393,9 @@ $("tsnd").onclick=()=>{S.set.snd=S.set.snd?0:1;mute=!S.set.snd;save();syncSet()}
 $("tmus").onclick=()=>{S.set.mus=S.set.mus?0:1;save();syncSet();setMusic(!!S.set.mus&&!mute)};
 $("tvib").onclick=()=>{S.set.vib=S.set.vib?0:1;save();syncSet();if(S.set.vib)try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}};
 document.addEventListener("click",()=>{if(S.set.mus&&!music&&!mute)setMusic(true)},{once:true});
+function svStat(){const er=localStorage.getItem("km_err"),ex=$("erx");if(er){ex.style.display="block";ex.textContent="⚠️ "+er}else ex.style.display="none";const t=lastSave?new Date(lastSave).toLocaleTimeString("ar-EG",{hour:"2-digit",minute:"2-digit"}):"—";
+ const el=$("sv");el.textContent="✅ تقدمك بيتحفظ تلقائيًا على جهازك بعد كل إجابة"+(lastSave?" (آخر حفظ: "+t+")":"")+".";
+ try{navigator.storage&&navigator.storage.persisted&&navigator.storage.persisted().then(p=>{el.textContent+=p?" التخزين الدائم: مفعّل.":" التخزين الدائم: غير مفعّل (قد يمسحه المتصفح لو الجهاز امتلأ)."})}catch(e){}}
 $("setb").onclick=()=>show("set");
 const MAIL="elhadrystudios@gmail.com",APP_V="1.0",PKG="com.elhadry.khamenalmathal",PLAY="https://play.google.com/store/apps/details?id="+PKG;
 $("emt").textContent=MAIL;
@@ -360,7 +403,7 @@ function openRate(){S.rq=2;save();try{window.open(PLAY,"_blank")}catch(e){locati
 $("rateb").onclick=$("rateH").onclick=openRate;
 const SITE="https://elhadry9966-bot.github.io/";
 document.querySelectorAll("[data-l]").forEach(a=>a.onclick=e=>{e.preventDefault();try{window.open(SITE+a.dataset.l,"_blank")}catch(x){location.href=SITE+a.dataset.l}});
-$("repb").onclick=$("repH").onclick=()=>{const body="اكتب مشكلتك هنا:\n\n\n\n---\nالإصدار: "+APP_V+"\nالمرحلة: "+Math.min(S.done+1,50)+"\nالجهاز: "+navigator.userAgent;
+$("repb").onclick=$("repH").onclick=()=>{const body="اكتب مشكلتك هنا:\n\n\n\n---\nالإصدار: "+APP_V+"\nالمرحلة: "+Math.min(S.done+1,50)+"\nالجهاز: "+navigator.userAgent+"\nآخر خطأ: "+(localStorage.getItem("km_err")||"لا يوجد");
  const u="mailto:"+MAIL+"?subject="+encodeURIComponent("بلاغ عن مشكلة - خمّن المثل")+"&body="+encodeURIComponent(body);
  try{location.href=u}catch(e){}
  try{navigator.clipboard.writeText(MAIL)}catch(e){}toast("📧 أرسل بلاغك إلى "+MAIL)};
@@ -383,7 +426,7 @@ function obEnd(){S.ob=1;save();$("ob").classList.remove("on")}
 $("obn").onclick=()=>{if(obi<OB.length-1){obi++;obShow()}else obEnd()};$("obs").onclick=obEnd;
 if(!S.ob){obShow();$("ob").classList.add("on")}
 document.querySelectorAll(".fx").forEach(b=>b.onclick=()=>{S.set.snd=S.set.snd?0:1;mute=!S.set.snd;save();syncSet()});
-document.addEventListener("click",e=>{if(e.target.closest("button"))snd(660,.05,"square",.03)});
+document.addEventListener("click",e=>{if(e.target.closest("button"))snd(740,.06,"sine",.05)});
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.go)));
 document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>$(b.dataset.close).classList.remove("on")));
 $("play").onclick=()=>{S.lv=Math.min(S.done,50);load()};
