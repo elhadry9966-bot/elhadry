@@ -113,6 +113,9 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 #prog,#qprog,.bar i{transition:width .5s cubic-bezier(.2,.8,.2,1)}
 .stats .st b{transition:color .3s}
 @media (prefers-reduced-motion:reduce){.opt,.gold:after,.hc.l,.hc.r,.lv.cur,.clue{animation:none}}
+.exp{display:none;background:rgba(247,198,90,.09);border:1px solid rgba(247,198,90,.45);border-radius:18px;padding:14px 16px;margin-top:10px;animation:clue .4s}.exp.on{display:block}
+.exp .et{display:block;color:var(--gold);font-size:13px;margin-top:2px}.exp p{margin:2px 0 10px;font-size:16px;line-height:1.7}.exp .gold{margin:4px 0 0;height:48px;font-size:17px}
+.bi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;text-align:start;width:100%}.bi b{display:block;font-size:16px}.bi .d{display:none;margin-top:8px;color:var(--mut);font-size:14px;line-height:1.8}.bi.open .d{display:block}.bi.lk{opacity:.4}.bi .d i{display:block;font-style:normal;color:var(--tx)}
 </style>
 </head>
 <body>
@@ -128,16 +131,17 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <div class="chip" id="strk"></div>
   <div class="stats">
     <div class="st"><div>🪙</div><b class="coins"></b><small>عملاتك</small></div>
-    <div class="st"><div>⭐</div><b><span id="sStars"></span> <em>/ 150</em></b><small>نجومك</small></div>
+    <div class="st"><div>⭐</div><b><span id="sStars"></span> <em id="smax">/ 300</em></b><small>نجومك</small></div>
     <div class="st"><div>🏆</div><b id="sScore"></b><small>نقاطك</small></div>
   </div>
-  <div class="row2"><b>رحلة من ٥٠ لغزًا</b><span class="chip">✨ ٥ فئات</span></div>
+  <div class="row2"><b>رحلة من ١٠٠ لغز</b><span class="chip">✨ ١٠ فئات</span></div>
   <div class="bar"><i id="hp"></i></div>
   <div class="row2 s"><span id="hnext"></span><span id="hcnt"></span></div>
   <button class="gold" id="play">▶ واصل التحدي</button>
   <div class="modes"><button class="mode" id="dcb"></button><button class="mode" id="tab"></button></div>
   <div class="modes"><button class="mode" id="achb"></button><button class="mode" id="shpb">🛍️ المتجر</button></div>
-  <div class="links"><button id="how">❓ كيف ألعب؟</button><button id="lvls">▦ اختيار المرحلة</button></div>
+  <div class="modes"><button class="mode" id="bkb"></button><button class="mode" id="lvls">▦ اختيار المرحلة</button></div>
+  <div class="links"><button id="how">❓ كيف ألعب؟</button></div>
   <div class="chips"><button id="daily">🎁 هدية يومية</button><button id="shareH">📤 مشاركة</button><button id="reset">🔄 ابدأ من جديد</button><button id="rateH">⭐ قيّمنا</button><button id="repH">🐞 بلّغ عن مشكلة</button></div>
   <p class="foot">مجموعة ألغاز جديدة · تقدمك محفوظ على جهازك · © Elhadry</p>
   <p class="foot lg"><a href="#" data-l="privacy.html">سياسة الخصوصية</a> · <a href="#" data-l="terms.html">شروط الاستخدام</a></p>
@@ -150,7 +154,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 
 <section id="game" class="scr">
   <div class="top">
-    <div class="stage"><small>المرحلة</small><b><span id="lvn">1</span> <em>/ 50</em></b></div>
+    <div class="stage"><small>المرحلة</small><b><span id="lvn">1</span> <em>/ 100</em></b></div>
     <div class="pill"><span class="coins"></span> 🪙</div>
     <div style="display:flex;gap:8px"><button class="ibtn fx">🔊</button><button class="ibtn" id="pause">⏸</button></div>
   </div>
@@ -160,6 +164,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <div class="clue"><span class="chip" id="chipT"></span><div id="pic"></div><div id="qt">ما المثل الذي تخبرك به هذه الرموز؟</div><div id="qs"></div></div>
   <div class="sec2"><b>اختر إجابتك</b><span>إجابة واحدة صحيحة</span></div>
   <div class="opts" id="opts"></div>
+  <div class="exp" id="exp"></div>
   <div class="dv">دفعة صغيرة نحو الإجابة</div>
   <div class="hs">
     <button class="hb" id="bh" style="--col:var(--ind)"><span class="c">💡</span>تلميح<small>١٠ عملات</small></button>
@@ -179,6 +184,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
   <div class="sh2">💬 الدعم</div>
   <div style="display:flex;gap:8px"><button class="sb" id="rateb">⭐ قيّمنا</button><button class="sb" id="repb">🐞 بلّغ عن مشكلة</button></div>
   <div class="em" id="emt"></div>
+  <button class="sb" id="cpe" style="display:none;flex:none;width:100%">📋 نسخ سجل الأخطاء</button>
   <div class="em" id="erx" style="display:none;direction:ltr;text-align:left;font-size:11px;white-space:pre-wrap;word-break:break-all"></div>
   <div class="em" style="direction:rtl;margin-top:6px">© Elhadry — جميع الحقوق محفوظة</div>
   <p class="foot lg" style="margin:0"><a href="#" data-l="privacy.html">سياسة الخصوصية</a> · <a href="#" data-l="terms.html">شروط الاستخدام</a></p>
@@ -192,6 +198,12 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 <section id="ach" class="scr">
   <div class="top"><button class="ibtn" data-go="home">→</button><b style="font-size:22px">الإنجازات</b><span class="pill" style="padding:8px 16px;font-size:17px" id="achc"></span></div>
   <div class="ag" id="agl"></div>
+</section>
+
+<section id="book" class="scr">
+  <div class="top"><button class="ibtn" data-go="home">→</button><b style="font-size:22px">كتاب الأمثال</b><span class="pill" style="padding:8px 16px;font-size:17px" id="bkc"></span></div>
+  <p class="sub" style="margin:0 0 8px;font-size:14px">اضغط على أي مثل تعرف معناه ومتى بنقوله</p>
+  <div class="ag" id="bkl"></div>
 </section>
 
 <section id="shop" class="scr">
@@ -212,7 +224,7 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 </section>
 
 <section id="end" class="scr endc">
-  <div class="big">🏆</div><h1>مبروك!</h1><p class="sub">أنهيت كل المراحل الخمسين<br>أنت خبير الأمثال 👑</p><h2 id="tot" style="margin:0"></h2>
+  <div class="big">🏆</div><h1>مبروك!</h1><p class="sub">أنهيت كل المراحل المئة<br>أنت ملك الأمثال 👑</p><h2 id="tot" style="margin:0"></h2>
   <button class="gold" id="shareE">📤 شارك نتيجتك</button><button class="links" data-go="home" style="justify-content:center">القائمة الرئيسية</button>
 </section>
 </div>
@@ -220,17 +232,17 @@ h1{margin:0;text-align:center;font-size:46px;line-height:1.2}h1 span{color:var(-
 <div class="ov" id="hw"><div class="box"><h3>❓ كيف ألعب؟</h3><p>١. انظر إلى الرموز واربطها بمثل مصري.<br>٢. اختر الإجابة من أربعة اختيارات.<br>٣. كل إجابة صحيحة تمنحك عملات ونجوماً (٣ نجوم بلا أخطاء ولا تلميحات).<br>٤. عند التعثّر استخدم التلميح أو حذف خيارين أو تخطّي اللغز.</p><button class="gold" data-close="hw">فهمت</button></div></div>
 <div class="ov" id="pz"><div class="box"><h3>⏸ إيقاف مؤقت</h3><button class="gold" data-close="pz">▶ متابعة</button><button class="links" data-go="home" data-close="pz" style="justify-content:center">🏠 القائمة الرئيسية</button></div></div>
 <div class="ov" id="o2"><div class="box"><div class="big" id="o2e">🏆</div><h3 id="o2t"></h3><p id="o2p" style="text-align:center"></p><button class="gold" id="o2b">متابعة</button><button class="links" id="o2s" style="justify-content:center">📤 مشاركة</button></div></div>
-<div class="ov" id="rt"><div class="box"><div class="big">⭐</div><h3>عجبتك اللعبة؟</h3><p style="text-align:center">لو استمتعت بـ«خمّن المثل» ساعدنا بتقييم على Google Play. بياخد ثواني وبيفرق معانا كتير 💛</p><div class="rtb"><button class="gold" id="rty">قيّم الآن ⭐</button><button class="links" id="rtl" style="justify-content:center">لاحقًا</button><button class="links" id="rtn" style="justify-content:center;color:var(--mut);font-size:14px">لا شكرًا</button></div></div></div>
+<div class="ov" id="rt"><div class="box"><div class="big">⭐</div><h3>عجبتك اللعبة؟</h3><p style="text-align:center">لو استمتعت بـ«خمّن المثل» ساعدنا بتقييم على المتجر. بياخد ثواني وبيفرق معانا كتير 💛</p><div class="rtb"><button class="gold" id="rty">قيّم الآن ⭐</button><button class="links" id="rtl" style="justify-content:center">لاحقًا</button><button class="links" id="rtn" style="justify-content:center;color:var(--mut);font-size:14px">لا شكرًا</button></div></div></div>
 <div class="ov" id="ob"><div class="box"><div class="big" id="obe"></div><h3 id="obt"></h3><p id="obp" style="text-align:center"></p><div class="obd" id="obd"></div><button class="gold" id="obn">التالي</button><button class="links" id="obs" style="justify-content:center">تخطّي</button></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
-function logErr(e){try{const m=((e&&(e.stack||e.message))||String(e)).toString().slice(0,500);localStorage.setItem("km_err",new Date().toISOString().slice(11,19)+" | "+m)}catch(x){}}
+function logErr(e){try{const m=((e&&(e.stack||e.message))||String(e)).toString().slice(0,500),l=new Date().toISOString().slice(0,19)+" | "+m;localStorage.setItem("km_err",l);let a=[];try{a=JSON.parse(localStorage.getItem("km_errl")||"[]")}catch(z){}a.push(l);localStorage.setItem("km_errl",JSON.stringify(a.slice(-5)))}catch(x){}}
 addEventListener("error",ev=>logErr(ev.error||ev.message));addEventListener("unhandledrejection",ev=>logErr(ev.reason));
-const TIERS=["مبتدئ","هاوٍ","ماهر","خبير","أسطورة"],LT=["أ","ب","ج","د"];
-const DATA="العصفورة في الإيد أحسن من عشرة على الشجرة|✋🐦✅ 🌳🔟🐦❌|الشيء المضمون أفضل من وعود كثيرة;اضرب عصفورين بحجر|🪨➡️🐦🐦|تحقيق هدفين بجهد واحد;كتر الطباخين تحرق الطبخة|👨‍🍳👩‍🍳👨‍🍳🍲🔥|كثرة المتدخلين تفسد العمل;الصلح خير|🕊️🤝✅|الإصلاح بين المتخاصمين أفضل;لما القط يغيب العب يا فار|🐱🚫🐭🎉|الناس تنشط حين يغيب الرقيب;اللي بيته من إزاز ما يحدفش الناس بالطوب|🏠🪟🚫🧱|من عنده عيوب لا يعيّر غيره;الصبر مفتاح الفرج|⏳🧘🔑🔓|الصبر يفتح الأبواب المغلقة;العلم في الراس مش في الكرّاس|🧠✅ 📓❌|المعرفة الحقيقية تُحفظ في العقل لا الورق;الصديق وقت الضيق|😰🆘👬🤝|الصديق الحقيقي يظهر في الشدة;كل طالع نازل|🚀⬆️ ➡️ ⬇️💥|من يعلو يوماً سيهبط;الجبل تمخض فولد فار|⛰️😤➡️🐭|ضجة كبيرة لنتيجة صغيرة;الكلام من فضة والسكوت من دهب|🗣️🥈 🤐🥇|الصمت أحياناً أثمن من الكلام;الكلاب تعوي والقافلة تسير|🐕📢 🐪🐪🐪➡️|تجاهل المنتقدين وأكمل طريقك;مش كل ما يلمع دهب|✨🚫🥇|المظهر قد يخدع;اللي فات مات|⏮️🪦|لا تبكِ على الماضي;العجلة من الشيطان|🏃💨😈|الاستعجال يؤدي للأخطاء;حبل الكدب قصير|🤥🪢📏|الكذب ينكشف سريعاً;داري على شمعتك تقيد|🕯️💨🤲|احمِ ما تملك حتى يستمر;إيد لوحدها ما تسقفش|☝️👏🚫|التعاون ضروري للإنجاز;ما تحطش البيض كله في سبت واحد|🥚🥚🥚➡️🧺🚫|لا تجازف بكل ما تملك في مكان واحد;كل تأخيرة وفيها خيرة|⏳🐢➡️🍀|التأخير قد يخفي شيئاً جيداً;الديك الفصيح من البيضة يصيح|🥚📢🐓|الموهبة تظهر من الصغر;من جاور السعيد يسعد|🏠😊🏠➡️😊|الجار الطيب ينفعك;اللي تزرعه تحصده|🌱➡️🌾🧺|ما تفعله يعود عليك;الباب اللي يجيلك منه الريح سده واستريح|🚪💨🧱😌|تخلّص من مصدر المشكلة;دخان يعمي ولا برد يقتل|🌫️🙈🆚🥶💀|أهون الضررين أفضل;من جاور الحداد ينكوي بناره|⚒️🔥🏠😖|مجاورة الأشرار تضرّك;الطمع يقل ما جمع|🤑💰➡️📉|الطمع يضيّع ما معك;القرش الأبيض ينفع في اليوم الأسود|🪙⚪ 📅🖤|ادّخر للأيام الصعبة;مفيش ورد من غير شوك|🌹🌵🤝|كل جميل له صعوبة;اختار الصديق قبل الطريق|👬✅ ➡️ 🛣️|اختر رفيقك قبل أن تسافر;ضرب الحبيب زي أكل الزبيب|👊➡️❤️🍇😋|عتاب المحبّ لا يؤلم;للحيطان ودان|🧱👂🤫|احذر الكلام فقد يسمعك أحد;الغريق بيتعلق في قشاية|🌊🏊🆘🌾|اليائس يتمسك بأي أمل;الحاجة أم الاختراع|😰➡️💡🔧|الضيق يولّد الأفكار;العين بصيرة واليد قصيرة|👁️🍎 🤏🚫|ترى ما تريد ولا تستطيع نيله;قصقصي ريش طيرك قبل ما يلف على غيرك|✂️🪶🐦|امنع من يخصّك أن يذهب لغيرك;العروسة طويلة والباب قصير|👰⬆️ 🚪⬇️|ظروف لا تناسب بعضها;العلم في الصغر زي النقش على الحجر|👶📖🪨✍️|ما تتعلمه صغيراً يثبت;مراية الحب عميا|🪞❤️🙈|المحب لا يرى عيوب حبيبه;اللي باعك بالفول بيعه بقشره|🫘🛒👋➡️🫘🗑️👋|من خانك أو استهان بك عامله بالمثل;اقلب القدرة على فمها تطلع البنت لأمها|🍲🙃👧➡️👩|البنت تشبه أمها غالباً;القرد في عين أمه غزال|👩🐒👀➡️🦌|الأم ترى ابنها أجمل الناس;الجمل ما يشوفش حدبته|🐪🪞🙈|الإنسان لا يرى عيوب نفسه;الوقت زي السيف|⏱️⚔️✂️|إن لم تستغله ضاع منك;المؤمن ما يتلدغش من جحر مرتين|🐍🕳️🤕 2️⃣🚫|لا تقع في نفس الخطأ مرتين;درهم وقاية ولا قنطار علاج|🪙🛡️ 💰💊|الوقاية أرخص من العلاج;اللي ما يعرف الصقر يشويه|🦅🔥🍽️|الجاهل بقيمة الشيء يضيّعه;الطيور على أشكالها بتقع|🦜🦜🤝 🐧🐧🤝|المتشابهون يتجمعون;الجنة تحت أقدام الأمهات|👩👣🌴✨|بر الأم طريق الجنة";
-const D=DATA.split(";").map(s=>{const[p,a,h]=s.split("|");return{p,a,h}});
-const $=i=>document.getElementById(i),LINK=location.href.split("#")[0];
+const TIERS=["مبتدئ","هاوٍ","ماهر","خبير","أسطورة","محترف","نابغة","حكيم","سيد الأمثال","ملك الأمثال"],LT=["أ","ب","ج","د"];
+const DATA="العصفورة في الإيد أحسن من عشرة على الشجرة|✋🐦✅ 🌳🔟🐦❌|الشيء المضمون أفضل من وعود كثيرة|لما حد يسيب مكسب أكيد عشان وعد كبير مش مضمون;اضرب عصفورين بحجر|🪨➡️🐦🐦|تحقيق هدفين بجهد واحد|لما مشوار واحد يخلّص لك شغلتين;كتر الطباخين تحرق الطبخة|👨‍🍳👩‍🍳👨‍🍳🍲🔥|كثرة المتدخلين تفسد العمل|لما ناس كتير تتدخل في شغل وتبوّظه;الصلح خير|🕊️🤝✅|الإصلاح بين المتخاصمين أفضل|لما نحاول نصالح اتنين متخانقين;لما القط يغيب العب يا فار|🐱🚫🐭🎉|الناس تنشط حين يغيب الرقيب|لما المدير يمشي والموظفين يهزّروا;اللي بيته من إزاز ما يحدفش الناس بالطوب|🏠🪟🚫🧱|من عنده عيوب لا يعيّر غيره|لما حد يلوم غيره على عيب عنده هو نفسه;الصبر مفتاح الفرج|⏳🧘🔑🔓|الصبر يفتح الأبواب المغلقة|لما حد في ضيق ونطمنه إن الفرج قريب;العلم في الراس مش في الكرّاس|🧠✅ 📓❌|المعرفة الحقيقية تُحفظ في العقل لا الورق|لما نقول إن المهم اللي تفهمه مش اللي تكتبه بس;الصديق وقت الضيق|😰🆘👬🤝|الصديق الحقيقي يظهر في الشدة|لما حد يقف جنبك وقت مشكلتك;كل طالع نازل|🚀⬆️ ➡️ ⬇️💥|من يعلو يوماً سيهبط|لما حد يتكبّر بمنصبه ونفكّره إنه مش دايم;الجبل تمخض فولد فار|⛰️😤➡️🐭|ضجة كبيرة لنتيجة صغيرة|لما يتعمل ضجة كبيرة وتطلع نتيجة صغيرة;الكلام من فضة والسكوت من دهب|🗣️🥈 🤐🥇|الصمت أحياناً أثمن من الكلام|لما يكون الأحسن إنك تسكت;الكلاب تعوي والقافلة تسير|🐕📢 🐪🐪🐪➡️|تجاهل المنتقدين وأكمل طريقك|لما حد ينتقدك وانت ماشي في طريقك;مش كل ما يلمع دهب|✨🚫🥇|المظهر قد يخدع|لما حاجة شكلها حلو وتطلع وحشة;اللي فات مات|⏮️🪦|لا تبكِ على الماضي|لما نقول لحد يبطّل يفتكر مشكلة قديمة;العجلة من الشيطان|🏃💨😈|الاستعجال يؤدي للأخطاء|لما حد يستعجل في شغل ويغلط;حبل الكدب قصير|🤥🪢📏|الكذب ينكشف سريعاً|لما كدبة تتكشف بسرعة;داري على شمعتك تقيد|🕯️💨🤲|احمِ ما تملك حتى يستمر|لما نقول لحد يحافظ على اللي معاه;إيد لوحدها ما تسقفش|☝️👏🚫|التعاون ضروري للإنجاز|لما شغل يحتاج ناس تتعاون;ما تحطش البيض كله في سبت واحد|🥚🥚🥚➡️🧺🚫|لا تجازف بكل ما تملك في مكان واحد|لما حد يحط كل فلوسه في مشروع واحد;كل تأخيرة وفيها خيرة|⏳🐢➡️🍀|التأخير قد يخفي شيئاً جيداً|لما حاجة تتأخر ونواسي بيها حد;الديك الفصيح من البيضة يصيح|🥚📢🐓|الموهبة تظهر من الصغر|لما طفل يظهر عليه الذكاء من صغره;من جاور السعيد يسعد|🏠😊🏠➡️😊|الجار الطيب ينفعك|لما تعيش مع ناس طيبين وتستفيد;اللي تزرعه تحصده|🌱➡️🌾🧺|ما تفعله يعود عليك|لما حد ياخد نتيجة اللي عمله;الباب اللي يجيلك منه الريح سده واستريح|🚪💨🧱😌|تخلّص من مصدر المشكلة|لما نقول نتخلص من أصل المشكلة;دخان يعمي ولا برد يقتل|🌫️🙈🆚🥶💀|أهون الضررين أفضل|لما نختار أخف الضررين;من جاور الحداد ينكوي بناره|⚒️🔥🏠😖|مجاورة الأشرار تضرّك|لما نحذّر حد من صحبة وحشة;الطمع يقل ما جمع|🤑💰➡️📉|الطمع يضيّع ما معك|لما حد يطمع ويخسر اللي معاه;القرش الأبيض ينفع في اليوم الأسود|🪙⚪ 📅🖤|ادّخر للأيام الصعبة|لما ننصح حد يوفّر للأيام الصعبة;مفيش ورد من غير شوك|🌹🌵🤝|كل جميل له صعوبة|لما نجاح يحتاج تعب;اختار الصديق قبل الطريق|👬✅ ➡️ 🛣️|اختر رفيقك قبل أن تسافر|لما نقول إن صحبة السفر مهمة;ضرب الحبيب زي أكل الزبيب|👊➡️❤️🍇😋|عتاب المحبّ لا يؤلم|لما حد يعاتبك بحب فما تزعلش;للحيطان ودان|🧱👂🤫|احذر الكلام فقد يسمعك أحد|لما نحذّر من حكي سر في مكان عام;الغريق بيتعلق في قشاية|🌊🏊🆘🌾|اليائس يتمسك بأي أمل|لما حد في ورطة يتمسك بأي أمل;الحاجة أم الاختراع|😰➡️💡🔧|الضيق يولّد الأفكار|لما ظروف صعبة تخلّي حد يبتكر حل;العين بصيرة واليد قصيرة|👁️🍎 🤏🚫|ترى ما تريد ولا تستطيع نيله|لما حد عايز حاجة ومش قادر يشتريها;قصقصي ريش طيرك قبل ما يلف على غيرك|✂️🪶🐦|امنع من يخصّك أن يذهب لغيرك|لما نقول لحد يحافظ على اللي بتاعه قبل ما يضيع;العروسة طويلة والباب قصير|👰⬆️ 🚪⬇️|ظروف لا تناسب بعضها|لما ظروف مش مظبوطة مع بعضها;العلم في الصغر زي النقش على الحجر|👶📖🪨✍️|ما تتعلمه صغيراً يثبت|لما نشجّع نعلّم الأطفال بدري;مراية الحب عميا|🪞❤️🙈|المحب لا يرى عيوب حبيبه|لما حد يحب ومش شايف عيوب حبيبه;اللي باعك بالفول بيعه بقشره|🫘🛒👋➡️🫘🗑️👋|من خانك أو استهان بك عامله بالمثل|لما نرد على اللي استهان بينا بنفس معاملته;اقلب القدرة على فمها تطلع البنت لأمها|🍲🙃👧➡️👩|البنت تشبه أمها غالباً|لما بنت تطلع شبه أمها في الطباع;القرد في عين أمه غزال|👩🐒👀➡️🦌|الأم ترى ابنها أجمل الناس|لما أم تشوف ابنها أحلى واحد;الجمل ما يشوفش حدبته|🐪🪞🙈|الإنسان لا يرى عيوب نفسه|لما حد يعيب غيره وينسى عيبه;الوقت زي السيف|⏱️⚔️✂️|إن لم تستغله ضاع منك|لما ننصح باستغلال الوقت;المؤمن ما يتلدغش من جحر مرتين|🐍🕳️🤕 2️⃣🚫|لا تقع في نفس الخطأ مرتين|لما حد يقع في نفس الغلطة تاني;درهم وقاية ولا قنطار علاج|🪙🛡️ 💰💊|الوقاية أرخص من العلاج|لما نقول إن الوقاية أحسن من العلاج;اللي ما يعرف الصقر يشويه|🦅🔥🍽️|الجاهل بقيمة الشيء يضيّعه|لما حد يضيّع حاجة ثمينة لأنه ما يعرف قيمتها;الطيور على أشكالها بتقع|🦜🦜🤝 🐧🐧🤝|المتشابهون يتجمعون|لما نلاقي ناس شبه بعض تتجمع;الجنة تحت أقدام الأمهات|👩👣🌴✨|بر الأم طريق الجنة|لما نذكّر ببر الأم;الدنيا دوّارة|🌍🔄|الأحوال لا تدوم على حال|لما حد يتكبّر بنعمته أو يحزن على ضيقته;السكوت علامة الرضا|🤐✅👌|من سكت عن الأمر فقد قبله|لما حد يسكت قدام حاجة ومايعترضش;الجار قبل الدار|🧑‍🤝‍🧑🏠➡️🏡|اختر الجار الطيب قبل أن تشتري البيت|لما حد يدوّر على سكن ننصحه يسأل عن الجيران الأول;رب ضارة نافعة|😖➡️🎁|ما تكرهه قد يأتي بخير|لما حاجة وحشة تطلع في الآخر فيها فايدة;الحلو ما يكملش|🍬🚫🏁|الأمور الجميلة لا تكتمل|لما فرحة أو حاجة حلوة تقف في نصها;يا فرحة ما تمت|🎉❌🏁|فرحة قطعها حدث سيئ قبل اكتمالها|لما فرحة تبوظ قبل ما تخلص;القناعة كنز لا يفنى|😌💎♾️|الرضا بما عندك غنى لا ينتهي|لما ننصح حد يرضى باللي ربنا قسمه له;الصاحب ساحب|👬🧲|الصديق يؤثر في صاحبه|لما نحذّر حد من صحبة وحشة;ابن الوز عوّام|🦆👶🏊|الابن يرث مهارات أبيه|لما ابن يطلع شاطر زي أبوه;اللي خلف ما مات|👶🚫🪦|من له ولد يبقى ذكره بعده|لما نقول إن الولد امتداد لأبوه;اللي اختشوا ماتوا|😳🪦|الحياء قلّ عند الناس|لما نشوف تصرف قليل الحياء;زي الأطرش في الزفة|🦻🚫🥁💃|من يحضر ولا يفهم شيئاً مما يدور|لما حد يكون موجود وهو مش فاهم اللي بيحصل;اللي يعيش ياما يشوف|🧓⏳👀➕|طول العمر يريك العجب|لما نتفاجئ بحاجة غريبة;جحا أولى بلحم ثوره|🧔🥩🐂|الأقربون أولى بخيرك|لما نقول إن القريب أولى بالمعروف;الصيت ولا الغنى|🗣️👍🆚💰|السمعة الطيبة أفضل من المال|لما نفضّل سمعة كويسة على فلوس;لسانك حصانك إن صنته صانك|👅🐎🛡️|احفظ لسانك يحفظك|لما ننصح حد يفكّر قبل ما يتكلم;اطعم الفم تستحي العين|🍽️👄➡️🙈👁️|الإكرام يُخجل صاحبه من الإلحاح عليك|لما الكرم يخلّي الناس تحترمك;ابعد عن الشر وغنّله|🚶👹🎤|تجنّب الشر ولو بمجاملته|لما نقول لحد يبعد عن المشاكل ويعدّيها بسلام;العتب على قد المحبة|😠❤️📏|اللوم يكون بقدر المحبة|لما حد يعاتبنا بحب ونقول إن عتابه علامة قربه;اللي ما يعرفش يقول عدس|🤷🫘|من لا يعرف الأمر يتهرّب ويقول أي كلام|لما حد يهرّج في موضوع هو مش فاهمه;اللي يخاف من العفريت يطلع له|😨👻➡️👀|الخوف يجلب ما تخافه|لما حد يكتر خوفه وتحصل له الحاجة اللي خايفها;الضرب في الميت حرام|🦵⚰️🚫|لا يجوز أذى من لا يستطيع الدفاع عن نفسه|لما حد يهاجم واحد مهزوم أو ضعيف;المال السايب يعلّم السرقة|💰🚪🦹|ترك المال دون حراسة يغري باللصوصية|لما حد يهمل في حماية حاجته;اللي يتلسع من الشوربة ينفخ في الزبادي|🍲🔥😖➡️🥛💨|من لُدغ مرة صار حذراً من كل شيء|لما حد يتخض من أي حاجة بعد تجربة وحشة;الطبع غلب التطبع|🧬🆚🎭|الطبع الأصلي أقوى من التصنّع|لما حد يحاول يتغيّر ويرجع لطبعه;من فات قديمه تاه|📖⏮️🧭❓|من نسي أصله ضاع|لما حد ينسى أصله وناسه;اتغدّى بيه قبل ما يتعشّى بيك|🍽️🌅➡️🌙🍽️|اسبق خصمك بالفعل قبل أن يفعل بك|لما نحذّر إن لازم نتصرف قبل ما حد يضرّنا;اللي يشوف بلوة غيره تهون عليه بلوته|👀😭➡️😌|من يرى مصيبة غيره تهون عليه مصيبته|لما نواسي حد بإن فيه ناس مشاكلها أكبر;قيراط حظ ولا فدان شطارة|🍀🆚🌾💪|الحظ أحياناً أنفع من الاجتهاد|لما حد ينجح بالحظ أكتر من التعب;مصائب قوم عند قوم فوائد|😭➡️😏💰|ما يضر قوماً قد ينفع آخرين|لما خسارة حد تبقى مكسب لحد تاني;اللي نعرفه أحسن من اللي ما نعرفوش|👤✅🆚❓|المعروف ولو فيه عيب أفضل من المجهول|لما نفضّل حاجة نعرفها على تجربة مجهولة;كل إناء بما فيه ينضح|🫗🏺✅|كل إنسان يُظهر ما بداخله|لما كلام حد يكشف أخلاقه;الصيف ضيّعتِ اللبن|☀️🥛🗑️|ضاعت الفرصة ثم جئت تطلبها متأخراً|لما حد يضيّع فرصة ويرجع يطلبها بعد فوات الأوان;جت الحزينة تفرح ما لقتلهاش مطرح|😢🎉🚫📍|الحزين لا يجد فرصة للفرح|لما حد تعبان يحاول يفرح وما يلاقيش الظروف;اللي مالوش كبير يشتري له كبير|👶🚫👴🛒|من لا مرجع له يبحث له عن مرجع|لما نقول إن لازم الواحد يكون له حد كبير يرجعله;بيصطاد في الماء العكر|🎣💧🌫️|ينتهز الفوضى لمصلحته|لما حد يستغل الأزمات عشان يكسب;من طلب العلا سهر الليالي|🏔️🌙👀|المجد لا يُنال إلا بالتعب|لما نشجّع حد يتعب عشان ينجح;عدو عاقل خير من صديق جاهل|😠🧠🆚😊🤪|الجاهل يؤذي أكثر من العدو العاقل|لما صاحب غلبان يضرّنا من غير قصد;طباخ السم بيدوقه|🧑‍🍳☠️👅|من يؤذي غيره سيذوق من نفس الكأس|لما حد يأذي الناس ويرجع له الأذى;الشجرة المثمرة تُرمى بالحجارة|🌳🍎🪨|الناجح يُحسد ويُهاجم|لما ناجح يتعرّض لحسد وانتقاد;اللي ياخد أمي أقوله يا عمي|🧔💍👩➡️🗣️👨|يجامل المرء من ينفعه ولو لم يحبه|لما نجامل حد مصلحة عنده;اللي ما يشوف من الغربال أعمى|👁️🪤🙈|من أنكر الواضح فهو متعامٍ|لما حد ينكر حاجة واضحة زي الشمس;العين ما تعلاش عن الحاجب|👁️⬆️🚫🤨|لا أحد يتجاوز من هو أعلى منه قدراً|لما حد يحاول يتعدّى على الكبير;الأقرع يتباهى بشعر بنت أخته|👨‍🦲💇‍♀️😏|يتفاخر بما ليس له|لما حد يفتخر بحاجة مش بتاعته;إن كان حبيبك عسل ما تلحسوش كله|🍯❤️👅🚫|لا تبالغ في استغلال من يحبك|لما ننصح حد ما يكترش على صاحبه;العيار اللي ما يصيبش يدوّش|🎯❌💨😵|حتى الفعل الفاشل قد يسبب إزعاجاً|لما محاولة فاشلة تسبب ضجة وتوتر;اللي تقدر تعمله النهاردة ما تأجّلوش لبكرة|📅✅🚫⏭️|لا تؤجل عمل اليوم إلى الغد|لما ننصح حد يخلّص شغله دلوقتي;ضربني وبكى وسبقني واشتكى|👊😭🏃📢|من يظلمك ثم يشكوك قبلك|لما حد يظلمنا وييجي يعمل نفسه المظلوم;يموت الزمار وصوابعه بتلعب|🪦🎺🖐️|الطبع لا يفارق صاحبه حتى الموت|لما حد ما يتخلّاش عن عادته;خير الأمور أوسطها|🔝🔻➡️🎯|الاعتدال أفضل من التطرف|لما ننصح بالوسطية في كل حاجة";
+const D=DATA.split(";").map(s=>{const[p,a,h,x]=s.split("|");return{p,a,h,x}});
+const N=D.length,STORE="",$=i=>document.getElementById(i),LINK=STORE||location.href.split("#")[0];
 let S={lv:0,coins:30,done:0,st:{},score:0};
 let loadedFrom="";
 (function(){const rd=k=>{try{const x=JSON.parse(localStorage.getItem(k));return x&&typeof x=="object"&&typeof x.done=="number"?x:null}catch(e){return null}};
@@ -256,7 +268,7 @@ const wrongs=(idx,n)=>{const L=D[idx].p.length;return D.map((x,i)=>({p:x.p,i,k:M
 const shuf=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const hash=s=>{let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0};
 const rng=seed=>{let a=seed>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
-function dailyIdx(){const r=rng(hash(todayS()+"khamen")),a=[...Array(50).keys()];for(let i=49;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,5)}
+function dailyIdx(){const r=rng(hash(todayS()+"khamen")),a=[...Array(N).keys()];for(let i=N-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,5)}
 function popPic(el,str){el.innerHTML="";const seg=window.Intl&&Intl.Segmenter?[...new Intl.Segmenter(undefined,{granularity:"grapheme"}).segment(str)].map(x=>x.segment):Array.from(str);seg.forEach((g,i)=>{const s=document.createElement("span");s.textContent=g;if(g.trim()){s.className="pe";s.style.animationDelay=i*70+"ms"}el.appendChild(s)})}
 const vib=p=>{if(S.set.vib&&!mute)try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
 let mute=!S.set.snd,AC,music=false,mi=null,locked=false,mist=0,hint=false,rs=false;
@@ -269,30 +281,34 @@ function cnt(el,to){const from=el.dataset.v==null?to:+el.dataset.v;el.dataset.v=
 function refresh(){document.querySelectorAll(".coins").forEach(c=>{const p=c.parentElement;if(c.textContent!==""&&c.textContent!=String(S.coins)){p.classList.remove("bump");void p.offsetWidth;p.classList.add("bump")}cnt(c,S.coins)});
   const sk=curStreak(),dd=S.dc&&S.dc.d==todayS();$("strk").textContent=sk>0?"🔥 "+(sk==1?"يوم متتالي":sk+" أيام متتالية"):"🔥 ابدأ سلسلة أيامك اليوم";
   $("dcb").textContent=dd?"✅ تحدي اليوم ("+S.dc.s+"/5)":"🔥 تحدي اليوم";$("dcb").classList.toggle("done",!!dd);
-  $("achb").textContent="🏅 الإنجازات "+Object.keys(S.ach).length+"/"+AL.length;$("tab").textContent="⏱️ تحدي السرعة"+(S.best?" · "+S.best:"");$("sScore").textContent=S.score||0;$("sStars").textContent=Object.values(S.st).reduce((a,b)=>a+b,0);const d=Math.min(S.done,50);$("hp").style.width=d*2+"%";$("hcnt").textContent=d+" / 50";$("hnext").textContent=d>=50?"أنهيت كل المراحل 🏆":"المرحلة "+(d+1)+" بانتظارك"}
-function show(id){document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id==id));refresh();if(id=="home")setTimeout(()=>{if(document.querySelector(".scr.on")?.id=="home"&&!document.querySelector(".ov.on"))rateAsk()},700);if(id=="map")buildMap();if(id=="set")svStat();if(id=="ach")buildAch();if(id=="shop")buildShop();scrollTo(0,0)}
+  $("bkb").textContent="📖 كتاب الأمثال "+Math.min(S.done,N)+"/"+N;$("achb").textContent="🏅 الإنجازات "+Object.keys(S.ach).length+"/"+AL.length;$("tab").textContent="⏱️ تحدي السرعة"+(S.best?" · "+S.best:"");$("sScore").textContent=S.score||0;$("sStars").textContent=Object.values(S.st).reduce((a,b)=>a+b,0);const d=Math.min(S.done,N);$("hp").style.width=d*100/N+"%";$("hcnt").textContent=d+" / "+N;$("smax").textContent="/ "+N*3;$("hnext").textContent=d>=N?"أنهيت كل المراحل 🏆":"المرحلة "+(d+1)+" بانتظارك"}
+function show(id){document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id==id));refresh();if(id=="home")setTimeout(()=>{if(document.querySelector(".scr.on")?.id=="home"&&!document.querySelector(".ov.on"))rateAsk()},700);if(id=="map")buildMap();if(id=="set")svStat();if(id=="ach")buildAch();if(id=="book")buildBook();if(id=="shop")buildShop();scrollTo(0,0)}
 function buildMap(){$("grid").innerHTML="";D.forEach((_,i)=>{const b=document.createElement("button");b.className="lv "+(i<S.done?"done":i==S.done?"cur":"lock");b.innerHTML=i<S.done?"✓<small>"+"⭐".repeat(S.st[i]||1)+"</small>":i+1;if(i<=S.done)b.onclick=()=>{S.lv=i;load()};$("grid").appendChild(b)})}
 function load(){
-  if(S.lv>=50){$("tot").textContent="⭐ "+Object.values(S.st).reduce((a,b)=>a+b,0)+" / 150";show("end");return}
-  locked=false;mist=0;hint=false;const L=D[S.lv],t=TIERS[Math.floor(S.lv/10)],k=S.lv%10*10;
-  $("lvn").textContent=S.lv+1;$("n2").textContent=(S.lv+1)+" / 50";$("tier").textContent=t+" · تقدم الفئة";$("chipT").textContent="فئة "+t;$("pct").textContent=k+"%";$("prog").style.width=k+"%";
+  if(S.lv>=N){$("tot").textContent="⭐ "+Object.values(S.st).reduce((a,b)=>a+b,0)+" / "+N*3;show("end");return}
+  locked=false;mist=0;hint=false;$("exp").classList.remove("on");const L=D[S.lv],t=TIERS[Math.floor(S.lv/10)],k=S.lv%10*10;
+  $("lvn").textContent=S.lv+1;$("n2").textContent=(S.lv+1)+" / "+N;$("tier").textContent=t+" · تقدم الفئة";$("chipT").textContent="فئة "+t;$("pct").textContent=k+"%";$("prog").style.width=k+"%";
   popPic($("pic"),L.a);$("qs").textContent="فكّر، اربط، ثم اختر الإجابة";
   const w=wrongs(S.lv,3);
   const o=[{t:L.p,c:1},...w.map(t=>({t,c:0}))].sort(()=>Math.random()-.5);
   $("opts").innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="opt";b.dataset.c=x.c;b.innerHTML="<span class='l'>"+LT[i]+"</span><span class='t'></span>";b.lastChild.textContent=x.t;b.style.animationDelay=i*70+"ms";b.onclick=()=>pick(b,x.c==1);$("opts").appendChild(b)});
   $("bh").disabled=false;$("b5").disabled=false;show("game")}
+const EXP_MS=7000;
+function showExp(i,go){const L=D[i],e=$("exp");e.innerHTML="<b class='et'>💡 المعنى</b><p class='em1'></p><b class='et'>📌 بنقولها</b><p class='em2'></p><button class='gold' id='expn'>التالي ◀</button>";
+  e.querySelector(".em1").textContent=L.h;e.querySelector(".em2").textContent=L.x||"";$("expn").onclick=go;e.classList.add("on");setTimeout(()=>{try{e.scrollIntoView({block:"nearest",behavior:"smooth"})}catch(x){}},60)}
 function pick(b,ok){
   if(locked)return;
   if(ok){locked=true;b.classList.add("ok");
-    const combo=(mist==0&&!hint)?(S.run||0)+1:0;let st=1,first=false,up=false;
+    const li=S.lv,combo=(mist==0&&!hint)?(S.run||0)+1:0;let st=1,first=false,up=false;
     try{st=Math.max(1,3-mist-(hint?1:0));first=S.lv==S.done;S.run=combo;S.st[S.lv]=Math.max(S.st[S.lv]||0,st);
-      if(first){S.coins+=10;S.score=(S.score||0)+100+st*50;S.done++}up=first&&S.done%10==0&&S.done<50;S.lv++;save()}catch(e){logErr(e);S.lv++}
+      if(first){S.coins+=10;S.score=(S.score||0)+100+st*50;S.done++}up=first&&S.done%10==0&&S.done<N;S.lv++;save()}catch(e){logErr(e);S.lv++}
     try{sOk(combo)}catch(e){logErr(e)}try{confetti()}catch(e){logErr(e)}try{vib(40)}catch(e){logErr(e)}
     try{refresh();toast("✅ "+"⭐".repeat(st)+(first?" +10 🪙":"")+(S.run>=3?" · 🔥×"+S.run:""))}catch(e){logErr(e)}
     try{chk()}catch(e){logErr(e)}
-    const go=()=>{try{up?tierUp(S.done/10):load()}catch(e){logErr(e);try{load()}catch(x){logErr(x)}}};
-    setTimeout(go,1100);
-    setTimeout(()=>{if(locked&&document.querySelector("#game.on")&&document.querySelector("#opts .opt.ok")){try{load()}catch(e){logErr(e)}}},3500)}
+    let gone=false;const go=()=>{if(gone||!document.querySelector("#game.on"))return;gone=true;try{up?tierUp(S.done/10):load()}catch(e){logErr(e);try{load()}catch(x){logErr(x)}}};
+    try{showExp(li,go)}catch(e){logErr(e)}
+    setTimeout(go,EXP_MS);
+    setTimeout(()=>{if(locked&&document.querySelector("#game.on")&&document.querySelector("#opts .opt.ok")){try{load()}catch(e){logErr(e)}}},EXP_MS+2500)}
   else{mist++;try{sNo();vib([60,40,60])}catch(e){logErr(e)}b.classList.add("no");b.disabled=true}}
 function pay(n){if(S.coins<n){toast("رصيدك لا يكفي 🪙");return false}S.coins-=n;save();refresh();return true}
 $("bh").onclick=()=>{if(locked||!pay(10))return;$("qs").textContent="💡 "+D[S.lv].h;hint=true;$("bh").disabled=true;snd(1047,.3,"sine",.1)};
@@ -300,7 +316,7 @@ $("b5").onclick=()=>{if(locked)return;const w=[...document.querySelectorAll(".op
 $("bs").onclick=()=>{if(locked||!pay(50))return;if(S.lv==S.done)S.done++;S.lv++;save();load()};
 function reward(n){S.coins+=n;save();refresh();[988,1319].forEach((f,i)=>setTimeout(()=>snd(f,.15,"triangle"),i*90));toast("🎉 +"+n+" 🪙")}
 $("daily").onclick=()=>{const t=todayS();if(S.gd==t)return toast("هديتك اليوم اتاخدت ✅ ارجع بكرة");S.gd=t;bumpStreak();const n=curStreak(),amt=50+Math.min(n-1,6)*10;reward(amt);chk();toast("🎁 +"+amt+" 🪙 · 🔥 "+n+" "+(n==1?"يوم":"أيام"));save();refresh()};
-async function share(t){const txt=typeof t=="string"?t:"🤔 وصلت للمرحلة "+Math.min(S.done+1,50)+" في لعبة خمّن المثل! تقدر توصل أبعد مني؟ 💪";
+async function share(t){const txt=typeof t=="string"?t:"🤔 وصلت للمرحلة "+Math.min(S.done+1,N)+" في لعبة خمّن المثل! تقدر توصل أبعد مني؟ 💪";
 try{if(navigator.share){await navigator.share({title:"خمّن المثل",text:txt,url:LINK});return}}catch(e){if(e&&e.name=="AbortError")return}
 try{await navigator.clipboard.writeText(txt+" "+LINK);toast("📋 تم نسخ الرسالة والرابط")}catch(e){window.open("https://wa.me/?text="+encodeURIComponent(txt+" "+LINK),"_blank")}}
 $("shareH").onclick=$("shareG").onclick=$("shareE").onclick=share;
@@ -311,12 +327,12 @@ function o2(e,t,p,cb,sh){$("o2e").textContent=e;$("o2t").textContent=t;$("o2p").
 function tierUp(i){S.coins+=50;save();refresh();[523,659,784,1047].forEach((f,k)=>setTimeout(()=>snd(f,.3,"triangle",.1),k*120));confetti();setTimeout(confetti,500);
   o2("🎖️","ترقية! وصلت لفئة "+TIERS[i],"أنهيت "+i*10+" مرحلة. هدية الترقية: +50 🪙",load,"🎖️ وصلت لفئة "+TIERS[i]+" في لعبة خمّن المثل! تقدر توصل أبعد مني؟ 💪")}
 let Q=null,QT=null;
-function qStart(mode){clearInterval(QT);Q={mode,order:mode=="daily"?dailyIdx():shuf([...Array(50).keys()]),i:0,score:0,t:60,lock:false,first:true};
+function qStart(mode){clearInterval(QT);Q={mode,order:mode=="daily"?dailyIdx():shuf([...Array(N).keys()]),i:0,score:0,t:60,lock:false,first:true};
   $("qmode").textContent=mode=="daily"?"تحدي اليوم":"تحدي السرعة";$("qchip").textContent=mode=="daily"?"٥ ألغاز · صح من أول مرة":"٦٠ ثانية · صح +٢ ثانية · غلط −٣";
   show("quick");qRender();
   if(mode=="time"){$("qtimer").style.display="";QT=setInterval(()=>{Q.t-=.25;qTick();if(Q.t<=0)qEnd()},250);qTick()}else $("qtimer").style.display="none"}
 function qTick(){const t=Math.max(0,Math.ceil(Q.t));$("qtimer").textContent="⏱ "+t;$("qtimer").classList.toggle("low",t<=10);$("qprog").style.width=Math.min(100,Q.t/60*100)+"%"}
-function qRender(){const idx=Q.order[Q.i%50],L=D[idx];Q.lock=false;Q.first=true;popPic($("qpic"),L.a);
+function qRender(){const idx=Q.order[Q.i%N],L=D[idx];Q.lock=false;Q.first=true;popPic($("qpic"),L.a);
   const w=wrongs(idx,3),o=shuf([{t:L.p,c:1},...w.map(t=>({t,c:0}))]);
   $("qopts").innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="opt";b.dataset.c=x.c;b.innerHTML="<span class='l'>"+LT[i]+"</span><span class='t'></span>";b.lastChild.textContent=x.t;b.style.animationDelay=i*60+"ms";b.onclick=()=>qPick(b,x.c==1);$("qopts").appendChild(b)});
   if(Q.mode=="daily"){$("qcount").textContent=(Q.i+1)+" / 5";$("qprog").style.width=Q.i/5*100+"%"}else $("qcount").textContent="صح: "+Q.score}
@@ -343,6 +359,8 @@ const AL=[
  {id:"a2",e:"📚",n:"عشر مراحل",d:"أنهِ ١٠ مراحل",rw:30,v:()=>S.done,g:10},
  {id:"a3",e:"🎓",n:"ربع الطريق",d:"أنهِ ٢٥ مرحلة",rw:60,v:()=>S.done,g:25},
  {id:"a4",e:"👑",n:"خبير الأمثال",d:"أنهِ المراحل الخمسين",rw:200,v:()=>S.done,g:50},
+ {id:"c1",e:"🏛️",n:"ملك الأمثال",d:"أنهِ كل المراحل المئة",rw:300,v:()=>S.done,g:100},
+ {id:"c2",e:"🌟",n:"نجّام كبير",d:"اجمع ١٥٠ نجمة",rw:150,v:starsN,g:150},
  {id:"a5",e:"🎯",n:"بلا أخطاء",d:"١٠ إجابات صح متتالية بلا خطأ ولا تلميح",rw:50,v:()=>S.run,g:10},
  {id:"a6",e:"⭐",n:"نجّام",d:"اجمع ٥٠ نجمة",rw:60,v:starsN,g:50},
  {id:"a7",e:"🔥",n:"ثلاثة أيام",d:"سلسلة ٣ أيام متتالية",rw:40,v:curStreak,g:3},
@@ -355,6 +373,11 @@ const AL=[
 const aq=[];let aqb=false;
 function aNext(){if(aqb||!aq.length)return;aqb=true;const a=aq.shift();toast("🏅 إنجاز: "+a.n+" +"+a.rw+" 🪙");[784,988,1319].forEach((f,i)=>setTimeout(()=>snd(f,.2,"triangle",.1),i*100));setTimeout(()=>{aqb=false;aNext()},1700)}
 function chk(){let ch=false;AL.forEach(a=>{if(!S.ach[a.id]&&a.v()>=a.g){S.ach[a.id]=Date.now();S.coins+=a.rw;ch=true;aq.push(a)}});if(ch){save();refresh();setTimeout(aNext,1500)}}
+function buildBook(){const l=$("bkl");l.innerHTML="";const n=Math.min(S.done,N);$("bkc").textContent=n+" / "+N;
+ for(let i=0;i<N;i++){const L=D[i],b=document.createElement("button");b.className="bi"+(i<n?"":" lk");
+  if(i<n){b.innerHTML="<b></b><div class='d'><i></i><i></i></div>";b.querySelector("b").textContent=(i+1)+". "+L.p;const q=b.querySelectorAll("i");q[0].textContent="💡 "+L.h;q[1].textContent="📌 بنقولها "+(L.x||"");b.onclick=()=>b.classList.toggle("open")}
+  else{b.innerHTML="<b></b>";b.querySelector("b").textContent=(i+1)+". 🔒 مثل مقفول"}
+  l.appendChild(b)}}
 function buildAch(){const l=$("agl");l.innerHTML="";$("achc").textContent=Object.keys(S.ach).length+" / "+AL.length;
  AL.forEach(a=>{const on=!!S.ach[a.id],p=Math.min(1,a.v()/a.g),d=document.createElement("div");d.className="ai"+(on?" on":"");
   d.innerHTML="<div class='e'></div><div style='flex:1'><b></b><small></small>"+(on?"":"<div class='pb'><i></i></div>")+"</div><div class='rw'></div>";
@@ -393,17 +416,18 @@ $("tsnd").onclick=()=>{S.set.snd=S.set.snd?0:1;mute=!S.set.snd;save();syncSet()}
 $("tmus").onclick=()=>{S.set.mus=S.set.mus?0:1;save();syncSet();setMusic(!!S.set.mus&&!mute)};
 $("tvib").onclick=()=>{S.set.vib=S.set.vib?0:1;save();syncSet();if(S.set.vib)try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}};
 document.addEventListener("click",()=>{if(S.set.mus&&!music&&!mute)setMusic(true)},{once:true});
-function svStat(){const er=localStorage.getItem("km_err"),ex=$("erx");if(er){ex.style.display="block";ex.textContent="⚠️ "+er}else ex.style.display="none";const t=lastSave?new Date(lastSave).toLocaleTimeString("ar-EG",{hour:"2-digit",minute:"2-digit"}):"—";
+function svStat(){const er=localStorage.getItem("km_err"),ex=$("erx");if(er){ex.style.display="block";ex.textContent="⚠️ "+er;$("cpe").style.display="block"}else{ex.style.display="none";$("cpe").style.display="none"}const t=lastSave?new Date(lastSave).toLocaleTimeString("ar-EG",{hour:"2-digit",minute:"2-digit"}):"—";
  const el=$("sv");el.textContent="✅ تقدمك بيتحفظ تلقائيًا على جهازك بعد كل إجابة"+(lastSave?" (آخر حفظ: "+t+")":"")+".";
  try{navigator.storage&&navigator.storage.persisted&&navigator.storage.persisted().then(p=>{el.textContent+=p?" التخزين الدائم: مفعّل.":" التخزين الدائم: غير مفعّل (قد يمسحه المتصفح لو الجهاز امتلأ)."})}catch(e){}}
+$("cpe").onclick=async()=>{let a="";try{a=JSON.parse(localStorage.getItem("km_errl")||"[]").join("\n")}catch(e){}a=a||localStorage.getItem("km_err")||"";try{await navigator.clipboard.writeText("خمّن المثل v"+APP_V+"\n"+a);toast("📋 تم نسخ السجل")}catch(e){toast("تعذّر النسخ")}};
 $("setb").onclick=()=>show("set");
-const MAIL="elhadrystudios@gmail.com",APP_V="1.0",PKG="com.elhadry.khamenalmathal",PLAY="https://play.google.com/store/apps/details?id="+PKG;
+const MAIL="elhadrystudios@gmail.com",APP_V="1.1",PKG="com.elhadry.khamenalmathal",PLAY="https://play.google.com/store/apps/details?id="+PKG;
 $("emt").textContent=MAIL;
-function openRate(){S.rq=2;save();try{window.open(PLAY,"_blank")}catch(e){location.href=PLAY}}
+function openRate(){if(!STORE){toast("التقييم هيشتغل بعد نشر اللعبة على المتجر 💛");return}S.rq=2;save();try{window.open(STORE,"_blank")}catch(e){location.href=STORE}}
 $("rateb").onclick=$("rateH").onclick=openRate;
 const SITE="https://elhadry9966-bot.github.io/";
 document.querySelectorAll("[data-l]").forEach(a=>a.onclick=e=>{e.preventDefault();try{window.open(SITE+a.dataset.l,"_blank")}catch(x){location.href=SITE+a.dataset.l}});
-$("repb").onclick=$("repH").onclick=()=>{const body="اكتب مشكلتك هنا:\n\n\n\n---\nالإصدار: "+APP_V+"\nالمرحلة: "+Math.min(S.done+1,50)+"\nالجهاز: "+navigator.userAgent+"\nآخر خطأ: "+(localStorage.getItem("km_err")||"لا يوجد");
+$("repb").onclick=$("repH").onclick=()=>{const body="اكتب مشكلتك هنا:\n\n\n\n---\nالإصدار: "+APP_V+"\nالمرحلة: "+Math.min(S.done+1,N)+"\nالجهاز: "+navigator.userAgent+"\nآخر الأخطاء: "+(localStorage.getItem("km_errl")||"لا يوجد");
  const u="mailto:"+MAIL+"?subject="+encodeURIComponent("بلاغ عن مشكلة - خمّن المثل")+"&body="+encodeURIComponent(body);
  try{location.href=u}catch(e){}
  try{navigator.clipboard.writeText(MAIL)}catch(e){}toast("📧 أرسل بلاغك إلى "+MAIL)};
@@ -429,7 +453,7 @@ document.querySelectorAll(".fx").forEach(b=>b.onclick=()=>{S.set.snd=S.set.snd?0
 document.addEventListener("click",e=>{if(e.target.closest("button"))snd(740,.06,"sine",.05)});
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.go)));
 document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>$(b.dataset.close).classList.remove("on")));
-$("play").onclick=()=>{S.lv=Math.min(S.done,50);load()};
+$("play").onclick=()=>{S.lv=Math.min(S.done,N);load()};
 $("lvls").onclick=()=>show("map");$("how").onclick=()=>$("hw").classList.add("on");$("pause").onclick=()=>$("pz").classList.add("on");
 $("reset").onclick=()=>{if(!rs){rs=true;$("reset").textContent="⚠️ اضغط مرة أخرى للتأكيد";setTimeout(()=>{rs=false;$("reset").textContent="🔄 ابدأ من جديد"},3000);return}rs=false;S={lv:0,coins:30,done:0,st:{},score:0,ach:{},own:["t_night","h_think"],eq:{t:"t_night",h:"h_think"},run:0};save();applyEq();$("reset").textContent="🔄 ابدأ من جديد";show("home")};
 show("home");
